@@ -1,4 +1,4 @@
-package search.teams;
+package teams;
 
 abstract public class SearchTeam {
 	private String teamName;

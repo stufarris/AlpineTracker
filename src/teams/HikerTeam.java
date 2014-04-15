@@ -1,4 +1,4 @@
-package search.teams;
+package teams;
 
 public class HikerTeam extends SearchTeam{
 
