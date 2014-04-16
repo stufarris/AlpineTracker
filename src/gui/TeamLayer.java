@@ -1,18 +1,14 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JPanel;
-
-public class MapLayerTeam extends JPanel {
+public class TeamLayer extends Layer {
 
 	private static final long serialVersionUID = -3091212122097231088L;
 	
-	public MapLayerTeam(int imageWidth, int imageHeight) {
-		this.setPreferredSize(new Dimension(imageWidth, imageHeight));
-		this.setOpaque(false);
+	public TeamLayer(int imageWidth, int imageHeight) {
+		super(imageWidth, imageHeight);
 	}
 	
 	public void paintComponent(Graphics g) {

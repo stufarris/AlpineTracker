@@ -1,7 +1,10 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
+import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,11 +22,13 @@ public class MainWindow extends JFrame {
 	
 	private static final long serialVersionUID = 682966950509743864L;
 
-	JPanel infoBar;
+	private JPanel infoBar;
 	
-	JScrollPane mapContainer;
+	private JScrollPane scrollPane;
 	
 	private static final int INFO_BAR_HEIGHT = 20;
+	
+	private Image image;
 	
 	public MainWindow() {
 		setTitle("RealRescue");
@@ -38,7 +43,7 @@ public class MainWindow extends JFrame {
 		
 		setUpMapContainer();
 		
-		add(mapContainer, "push, grow, wrap");
+		add(scrollPane, "push, grow, wrap");
 		add(infoBar, "growx, wrap");
 	}
 	
@@ -72,10 +77,25 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void setUpMapContainer() {
-		MapLayerMap mapDisplay = new MapLayerMap(getClass().getResource("/loveland.jpg"));
-		MapLayerTeam teamDisplay = new MapLayerTeam(mapDisplay.getWidth(), mapDisplay.getHeight());
-		MapLayers layers = new MapLayers(mapDisplay.getWidth(), mapDisplay.getHeight(), mapDisplay, teamDisplay);
-		mapContainer = new JScrollPane(layers);
+		loadImage(getClass().getResource("/loveland.jpg"));
+		MapLayer mapLayer = new MapLayer(this.image);
+		TeamLayer teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
+		LayerContainer layers = new LayerContainer(mapLayer.getWidth(), mapLayer.getHeight());
+		
+		layers.addLayer(mapLayer);
+		layers.addLayer(teamLayer);
+		layers.updateLayers();
+		
+		scrollPane = new JScrollPane(layers);
+	}
+	
+	public void loadImage(URL imageLocation) {
+		MediaTracker tracker = new MediaTracker(this);
+		this.image = Toolkit.getDefaultToolkit().getImage(imageLocation);
+		tracker.addImage(image, 0);
+		try {
+			tracker.waitForID(0);
+		} catch (InterruptedException e) {  return; }
 	}
 
 	public static void main(String[] args) {
