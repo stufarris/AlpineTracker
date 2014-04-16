@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -71,8 +72,10 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void setUpMapContainer() {
-		MapDisplayPanel mapDisplay = new MapDisplayPanel(getClass().getResource("/loveland.jpg"));
-		mapContainer = new JScrollPane(mapDisplay);
+		MapLayerMap mapDisplay = new MapLayerMap(getClass().getResource("/loveland.jpg"));
+		MapLayerTeam teamDisplay = new MapLayerTeam(mapDisplay.getWidth(), mapDisplay.getHeight());
+		MapLayers layers = new MapLayers(mapDisplay.getWidth(), mapDisplay.getHeight(), mapDisplay, teamDisplay);
+		mapContainer = new JScrollPane(layers);
 	}
 
 	public static void main(String[] args) {

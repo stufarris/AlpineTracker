@@ -10,12 +10,12 @@ import java.net.URL;
 import javax.swing.JPanel;
 
 
-public class MapDisplayPanel extends JPanel {
+public class MapLayerMap extends JPanel {
 
 	private static final long serialVersionUID = -831097041156312476L;
 	private Image map;
 
-	public MapDisplayPanel(URL imageLocation) {
+	public MapLayerMap(URL imageLocation) {
 		MediaTracker tracker = new MediaTracker(this);
 		map = Toolkit.getDefaultToolkit().getImage(imageLocation);
 		tracker.addImage(map, 0);
@@ -27,6 +27,14 @@ public class MapDisplayPanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		g.drawImage(map, 0, 0, null);
+	}
+	
+	public int getWidth() {
+		return map.getWidth(null);
+	}
+	
+	public int getHeight() {
+		return map.getHeight(null);
 	}
 
 }
