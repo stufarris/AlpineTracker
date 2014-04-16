@@ -1,10 +1,13 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import org.joda.time.DateTime;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -29,16 +34,24 @@ public class MainWindow extends JFrame {
 	private static final int INFO_BAR_HEIGHT = 20;
 	
 	private Image image;
+	private Timer timer = new Timer();
+	private JLabel timeLabel;
+	
+	private DateTime currentTime;
 	
 	public MainWindow() {
+		
+		timer.schedule(new Updater(), 0, 1000);
+		timeLabel = new JLabel();
+		
 		setTitle("RealRescue");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new MigLayout());
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setJMenuBar(generateMenu());
-		infoBar = new JPanel();
+		infoBar = new JPanel(new MigLayout());
 		infoBar.setPreferredSize(new Dimension(this.getWidth(), INFO_BAR_HEIGHT));
-		infoBar.add(new JLabel("Latitude and Longitude information, as well as time and other info will display here"));
+		infoBar.add(timeLabel, "push, wrap");
 		
 		
 		setUpMapContainer();
@@ -96,6 +109,35 @@ public class MainWindow extends JFrame {
 		try {
 			tracker.waitForID(0);
 		} catch (InterruptedException e) {  return; }
+	}
+	
+	private class Updater extends TimerTask {
+		
+		@Override
+	    public void run() {
+	        EventQueue.invokeLater(new Runnable() {
+
+	            @Override
+	            public void run() {
+	            	// Should be called every second
+	                currentTime = new DateTime();
+	                updateInfoBar();
+	            }
+	        });
+	    }
+	}
+	
+	public void updateInfoBar() {
+		String timeString = "";
+		timeString += "Current time: ";
+		timeString += currentTime.getMonthOfYear() + "/";
+		timeString += currentTime.getDayOfMonth() + "/";
+		timeString += currentTime.getYearOfCentury() + ", ";
+		timeString += currentTime.getHourOfDay() + ":";
+		timeString += currentTime.getMinuteOfHour() + ":";
+		timeString += currentTime.getSecondOfMinute();
+		
+		timeLabel.setText(timeString);
 	}
 
 	public static void main(String[] args) {

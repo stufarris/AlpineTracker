@@ -1,28 +1,33 @@
 package teams;
 
+import java.awt.Graphics;
+
 abstract public class SearchTeam {
 	private String teamName;
-	private int speed;
-	private int xLocation;
-	private int yLocation;
+	private double speed;
+	private double longitude;
+	private double latitude;
 	private int heading;
 	
-	public SearchTeam(String teamName, int xLocation, int yLocation){
-//		super();
-//		this.teamName = teamName;
-//		this.xLocation = xLocation;
-//		this.yLocation = yLocation;
+	public SearchTeam(String teamName, int latitude, int longitude){
+		this.teamName = teamName;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 	
-	abstract public void updateLocation();
+	public void setLocation(double latitude, double longitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 	
-	public void inputLocation(int xLocation, int yLocation){
-//		this.xLocation = xLocation;
-//		this.yLocation = yLocation;
+	public void updateLocation() {
+		
 	}
 	
 	public void inputHeading(int heading){
 //		this.heading = heading;
 	}
+	
+	public abstract void draw(Graphics g);
 	
 }

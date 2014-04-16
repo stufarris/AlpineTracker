@@ -1,5 +1,7 @@
 package teams;
 
+import java.awt.Graphics;
+
 public class HikerTeam extends SearchTeam{
 
 	public HikerTeam(String teamName, int xLocation, int yLocation) {
@@ -8,7 +10,7 @@ public class HikerTeam extends SearchTeam{
 	}
 
 	@Override
-	public void updateLocation() {
+	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 		
 	}
