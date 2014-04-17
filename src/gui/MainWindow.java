@@ -128,7 +128,6 @@ public class MainWindow extends JFrame {
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 43, 0),
 				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, team_helicopter, TeamType.HELICOPTER, converter));
-		
 
 		layers.addLayer(mapLayer);
 		layers.addLayer(teamLayer);
@@ -177,7 +176,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		// Set to system look and feel
+		//		 Set to system look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} 
