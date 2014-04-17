@@ -1,5 +1,7 @@
 package teams;
 
+import java.awt.Graphics;
+
 public class DogTeam extends SearchTeam{
 
 	public DogTeam(String teamName, int xLocation, int yLocation) {
@@ -9,6 +11,12 @@ public class DogTeam extends SearchTeam{
 
 	@Override
 	public void updateLocation() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 		
 	}
