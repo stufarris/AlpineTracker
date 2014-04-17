@@ -3,8 +3,8 @@ package gui;
 
 public class DistanceConverter {
 	
-	private double MILES_TO_PIXELS;
-	private double PIXELS_TO_MILES;
+	private double LAT_TO_YPIXELS;
+	private double LONG_TO_XPIXELS;
 	private double topLeftLat;
 	private double topLeftLong;
 	private double botRightLat;
@@ -24,28 +24,25 @@ public class DistanceConverter {
 		this.xWindowSize = xWindowSize;
 		this.yWindowSize = yWindowSize;
 		
-		FindConstants();
+		findConstants();
 	}
 	public static double convertDMStoDecimal(int degrees, int minutes, int seconds){
 		return degrees + minutes/60.0 + seconds/3600.0;
 	}
 
-	public void FindConstants(){
-		MILES_TO_PIXELS = yWindowSize/(topLeftLong-botRightLong);
-		PIXELS_TO_MILES = 1/MILES_TO_PIXELS;
+	public void findConstants(){
+		LAT_TO_YPIXELS = yWindowSize/(topLeftLat-botRightLat);
+		LONG_TO_XPIXELS = xWindowSize/(topLeftLong-botRightLong);
 	}
 	
-	public void DegMinSecToDec(int degrees, int minutes, int seconds){
-		
+	public int latDistanceToYPixel(double latitude){
+		return (int) ((topLeftLat - latitude) * LAT_TO_YPIXELS); 		
 	}
 	
-	public int LatToYPixel(double latitude){
-		return 0; 		
+	public int longDistanceToXPixel(double longitude){
+		return (int) ((topLeftLong - longitude) * LONG_TO_XPIXELS); 		
 	}
-	
-	public int LongToXPixel(double longitude){
-		return 0;		
-	}
+
 	
 	
 
