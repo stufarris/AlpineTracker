@@ -16,6 +16,14 @@ public class TeamLayer extends Layer {
 		teams = new ArrayList<SearchTeam>();
 	}
 	
+	public void addTeam(SearchTeam s) {
+		teams.add(s);
+	}
+	
+	public void removeTeam(SearchTeam s) {
+		teams.remove(s);
+	}
+	
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillOval(100, 100, 10, 10);
