@@ -35,9 +35,21 @@ public class SearchTeam {
 	}
 	
 	public void updateLocation() {
-		
+		this.latitude += converter.latChange(speed, heading, 100);
+		this.longitude += converter.longChange(speed, heading, 100);
+		System.out.println("Speed:" + this.speed);
+		System.out.println("Latitude: " + this.latitude);
+		System.out.println("Longitude: " + this.longitude);
 	}
 	
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+
+	public void setHeading(int heading) {
+		this.heading = heading;
+	}
+
 	public void inputHeading(int heading){
 //		this.heading = heading;
 	}

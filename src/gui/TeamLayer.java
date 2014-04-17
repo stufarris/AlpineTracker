@@ -23,11 +23,21 @@ public class TeamLayer extends Layer {
 		teams.remove(s);
 	}
 	
+	public void updateTeams() {
+		for(SearchTeam s : teams) {
+			s.updateLocation();
+		}
+	}
+	
 	public void paintComponent(Graphics g) {
 		// draw teams
 		for(SearchTeam t : teams) {
 			t.draw(g);
 		}
+	}
+
+	public ArrayList<SearchTeam> getTeams() {
+		return teams;
 	}
 
 }

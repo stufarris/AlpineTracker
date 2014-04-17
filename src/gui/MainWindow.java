@@ -29,6 +29,8 @@ import net.miginfocom.swing.MigLayout;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 682966950509743864L;
+	
+	private TeamLayer teamLayer;
 
 	private JPanel infoBar;
 
@@ -52,7 +54,7 @@ public class MainWindow extends JFrame {
 
 	public MainWindow() {
 
-		timer.schedule(new Updater(), 0, 1000);
+		timer.schedule(new Updater(), 0, 100);
 		timeLabel = new JLabel();
 
 		setTitle("RealRescue");
@@ -116,7 +118,7 @@ public class MainWindow extends JFrame {
 
 
 		MapLayer mapLayer = new MapLayer(this.map);
-		TeamLayer teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
+		teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
 		LayerContainer layers = new LayerContainer(mapLayer.getWidth(), mapLayer.getHeight());
 
 		teamLayer.addTeam(new SearchTeam("Test Team",
@@ -128,6 +130,9 @@ public class MainWindow extends JFrame {
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 43, 0),
 				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, team_helicopter, TeamType.HELICOPTER, converter));
+		
+		teamLayer.getTeams().get(0).setSpeed(.1);
+		teamLayer.getTeams().get(0).setHeading(180);
 
 		layers.addLayer(mapLayer);
 		layers.addLayer(teamLayer);
@@ -157,6 +162,9 @@ public class MainWindow extends JFrame {
 					// Should be called every second
 					currentTime = new DateTime();
 					updateInfoBar();
+					teamLayer.updateTeams();
+					repaint();
+					
 				}
 			});
 		}
