@@ -50,24 +50,24 @@ public class DistanceConverter {
 		return (int) ((topLeftLong - longitude) * LONG_TO_XPIXELS); 		
 	}
 	
-	public int xPixelChange(double speedMPH, int heading, int refreshRateInMillis){
+	public int longChange(double speedMPH, int heading, int refreshRateInMillis){
 		int angleDeg = 90 - heading;
 		double angleRad = (angleDeg * Math.PI) / 180.0;
 		double xSpeedMPH = speedMPH * Math.cos(angleRad);
 		double xSpeedMPMilli = xSpeedMPH/3600000.0;
 		double miles = xSpeedMPMilli * refreshRateInMillis;
-		int pixels = (int) (miles * MILES_TO_LAT * LONG_TO_XPIXELS);
-		return pixels;
+		int longChange = (int) (miles * MILES_TO_LONG);
+		return longChange;
 	}	
 	
-	public int yPixelChange(double speedMPH, int heading, int refreshRateInMillis){
+	public int latChange(double speedMPH, int heading, int refreshRateInMillis){
 		int angleDeg = 90 - heading;
 		double angleRad = (angleDeg * Math.PI) / 180.0;
 		double ySpeedMPH = speedMPH * Math.sin(angleRad);
 		double ySpeedMPMilli = ySpeedMPH/3600000.0;
 		double miles = ySpeedMPMilli * refreshRateInMillis;
-		int pixels = (int) (miles * MILES_TO_LONG * LAT_TO_YPIXELS);
-		return pixels;
+		int latChange = (int) (miles * MILES_TO_LAT);
+		return latChange;
 	}	
 
 }
