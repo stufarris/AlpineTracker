@@ -11,10 +11,6 @@ public class DistanceConverter {
 	private double botRightLong;
 	private int xWindowSize;
 	private int yWindowSize;
-
-	public DistanceConverter() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public DistanceConverter(double topLeftLat, double topLeftLong, double botRightLat, double botRightLong, int xWindowSize, int yWindowSize) {
 		this.topLeftLat = topLeftLat;

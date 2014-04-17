@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -25,8 +24,6 @@ public class TeamLayer extends Layer {
 	}
 	
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.RED);
-		g.fillOval(100, 100, 10, 10);
 		// draw teams
 		for(SearchTeam t : teams) {
 			t.draw(g);
