@@ -54,7 +54,7 @@ public class MainWindow extends JFrame {
 
 	public MainWindow() {
 
-		timer.schedule(new Updater(), 0, 100);
+		timer.schedule(new Updater(), 0, 1000);
 		timeLabel = new JLabel();
 
 		setTitle("RealRescue");
@@ -118,23 +118,27 @@ public class MainWindow extends JFrame {
 
 
 		MapLayer mapLayer = new MapLayer(this.map);
+		SearchedLayer searchedLayer = new SearchedLayer(mapLayer.getWidth(), mapLayer.getHeight());
 		teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
 		LayerContainer layers = new LayerContainer(mapLayer.getWidth(), mapLayer.getHeight());
 
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 44, 30),
-				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, team_dogs, TeamType.DOGS, converter));
+				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, team_dogs, TeamType.DOGS, converter, searchedLayer));
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 40, 30),
-				DistanceConverter.convertDMStoDecimal(105, 55, 0), currentTime, team_hiker, TeamType.HIKERS, converter));
+				DistanceConverter.convertDMStoDecimal(105, 55, 0), currentTime, team_hiker, TeamType.HIKERS, converter, searchedLayer));
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 43, 0),
-				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, team_helicopter, TeamType.HELICOPTER, converter));
+				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, team_helicopter, TeamType.HELICOPTER, converter, searchedLayer));
 		
-		teamLayer.getTeams().get(0).setSpeed(10);
-		teamLayer.getTeams().get(0).setHeading(180);
+		teamLayer.getTeams().get(0).setSpeed(5);
+		teamLayer.getTeams().get(0).setHeading(110);
+		teamLayer.getTeams().get(2).setSpeed(55);
+		teamLayer.getTeams().get(2).setHeading(20);
 
 		layers.addLayer(mapLayer);
+		layers.addLayer(searchedLayer);
 		layers.addLayer(teamLayer);
 		layers.updateLayers();
 
