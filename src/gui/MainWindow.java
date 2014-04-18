@@ -65,11 +65,12 @@ public class MainWindow extends JFrame {
 		infoBar = new JPanel(new MigLayout());
 		infoBar.setPreferredSize(new Dimension(this.getWidth(), INFO_BAR_HEIGHT));
 		infoBar.add(timeLabel, "push, wrap");
-
+		
 
 		setUpMapContainer();
 
-		add(scrollPane, "push, grow, wrap");
+		add(scrollPane);
+		this.add(new InfoBar(), "grow, push, wrap");
 		add(infoBar, "growx, wrap");
 	}
 
