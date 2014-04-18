@@ -136,7 +136,7 @@ public class MainWindow extends JFrame {
 		teamLayer.getTeams().get(0).setSpeed(5);
 		teamLayer.getTeams().get(0).setHeading(110);
 		teamLayer.getTeams().get(2).setSpeed(55);
-		teamLayer.getTeams().get(2).setHeading(20);
+		teamLayer.getTeams().get(2).setHeading(45);
 
 		layers.addLayer(mapLayer);
 		layers.addLayer(searchedLayer);

@@ -35,7 +35,7 @@ public class DistanceConverter {
 		LONG_TO_XPIXELS = xWindowSize/(topLeftLong-botRightLong);
 		
 		MILES_TO_LAT = 1/69.047;
-		MILES_TO_LONG = 1/69.047*Math.cos(topLeftLat);
+		MILES_TO_LONG = 1/(69.047*Math.cos(topLeftLat));
 	}
 	
 	public int latDistanceToYPixel(double latitude){
