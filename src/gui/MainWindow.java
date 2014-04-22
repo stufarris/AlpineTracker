@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
 
 import org.joda.time.DateTime;
 
@@ -64,39 +66,29 @@ public class MainWindow extends JFrame {
 		setJMenuBar(generateMenu());
 		infoBar = new JPanel(new MigLayout());
 		infoBar.setPreferredSize(new Dimension(this.getWidth(), INFO_BAR_HEIGHT));
-		infoBar.add(timeLabel, "push, wrap");
+		infoBar.add(timeLabel, "push");
+		infoBar.add(new JLabel("This panel can display more relevant info later on."), "wrap");
+		infoBar.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 
 		setUpMapContainer();
 
-		add(scrollPane);
-		this.add(new InfoBar(), "grow, push, wrap");
-		add(infoBar, "growx, wrap");
+		add(scrollPane, "grow, push");
+		add(new TeamAndMarkerDisplay(), "growy, wrap"); //TODO: this will need to add a member variable in the near future
+		add(infoBar, "span 2, grow, wrap");
 	}
 
 	public JMenuBar generateMenu() {
 
-		JMenu markerMenu = new JMenu("Markers");
-		JMenuItem markerAdd = new JMenuItem("Add a Marker");
-		JMenuItem markerInfo = new JMenuItem("Marker Info");
-		markerMenu.add(markerAdd);
-		markerMenu.add(markerInfo);
-
-		JMenu teamsMenu = new JMenu("Teams");
-		JMenuItem teamsAdd = new JMenuItem("Add a Team");
-		JMenuItem teamsUpdate = new JMenuItem("Update a Team");
-		teamsMenu.add(teamsAdd);
-		teamsMenu.add(teamsUpdate);
-
-
-		JMenu mapsMenu = new JMenu("Maps");
-		JMenuItem mapsLoad = new JMenuItem("Load Map");
-		mapsMenu.add(mapsLoad);
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem loadMap = new JMenuItem("Load Map");
+		JMenuItem saveMap = new JMenuItem("Save Map");
+		
+		fileMenu.add(loadMap);
+		fileMenu.add(saveMap);
 
 		JMenuBar mainMenu = new JMenuBar();
-		mainMenu.add(markerMenu);
-		mainMenu.add(teamsMenu);
-		mainMenu.add(mapsMenu);
+		mainMenu.add(fileMenu);
 
 
 		return mainMenu;
