@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
