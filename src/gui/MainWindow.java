@@ -144,11 +144,11 @@ public class MainWindow extends JFrame {
 				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, team_helicopter, TeamType.HELICOPTER, converter));
 		
 		teamLayer.getTeams().get(0).setHeading(90);
-		teamLayer.getTeams().get(0).setSpeed(5);
+		teamLayer.getTeams().get(0).setSpeed(10);
 		teamLayer.getTeams().get(1).setHeading(345);
-		teamLayer.getTeams().get(1).setSpeed(45);
-		teamLayer.getTeams().get(2).setHeading(200);
-		teamLayer.getTeams().get(2).setSpeed(15);
+		teamLayer.getTeams().get(1).setSpeed(5);
+		teamLayer.getTeams().get(2).setHeading(90);
+		teamLayer.getTeams().get(2).setSpeed(50);
 
 		layers.addLayer(mapLayer);
 		layers.addLayer(teamLayer);

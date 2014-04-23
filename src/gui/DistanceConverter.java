@@ -35,7 +35,8 @@ public class DistanceConverter {
 		LONG_TO_XPIXELS = xWindowSize/(topLeftLong-botRightLong);
 		
 		MILES_TO_LAT = 1/69.047;
-		MILES_TO_LONG = 1/(69.047*Math.cos(topLeftLat));
+		double topLeftLatRadian = (topLeftLat * Math.PI) / 180.0;
+		MILES_TO_LONG = 1/(69.047*Math.cos(topLeftLatRadian));
 	}
 	
 	public int latDistanceToYPixel(double latitude){
@@ -47,17 +48,17 @@ public class DistanceConverter {
 	}
 	
 	public double longChange(double speedMPH, int heading, int refreshRateInMillis){
-		int angleDeg = 90 - heading;
+		double angleDeg = 90.0 - (double) heading;
 		double angleRad = (angleDeg * Math.PI) / 180.0;
 		double xSpeedMPH = speedMPH * Math.cos(angleRad);
 		double xSpeedMPMilli = xSpeedMPH/3600000.0;
 		double miles = xSpeedMPMilli * refreshRateInMillis;
 		double longChange = (miles * MILES_TO_LONG);
-		return longChange;
+		return -1 * longChange; // -1 since in western hemisphere
 	}	
 	
 	public double latChange(double speedMPH, int heading, int refreshRateInMillis){
-		int angleDeg = 90 - heading;
+		double angleDeg = 90.0 - (double) heading;
 		double angleRad = (angleDeg * Math.PI) / 180.0;
 		double ySpeedMPH = speedMPH * Math.sin(angleRad);
 		double ySpeedMPMilli = ySpeedMPH/3600000.0;
