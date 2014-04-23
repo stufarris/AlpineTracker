@@ -103,7 +103,7 @@ public class MainWindow extends JFrame {
 	
 	public void addComponents() {
 		add(scrollPane, "grow, push");
-		add(teamDisplay, "grow, width 40%!, wrap"); //TODO: this will need to add a member variable in the near future
+		add(teamDisplay, "grow, width 20%!, wrap"); //TODO: this will need to add a member variable in the near future
 		add(infoBar, "span 2, grow, wrap");
 		revalidate();
 	}
@@ -227,7 +227,7 @@ public class MainWindow extends JFrame {
 					updateInfoBar();
 					if (teamLayer != null) {
 						teamLayer.updateTeams();
-						teamDisplay.update(teamLayer.getTeams());
+						teamDisplay.updateTeamTable(teamLayer.getTeams());
 					}
 					repaint();
 
