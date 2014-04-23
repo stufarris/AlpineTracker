@@ -60,5 +60,9 @@ public class DisplayTable extends JPanel {
 			table.setValueAt(clockTime.print(teams.get(i).getTimeCreated()), i, 6);
 		}
 	}
+	
+	public int getSelectedRow() {
+		return table.getSelectedRow();
+	}
 
 }

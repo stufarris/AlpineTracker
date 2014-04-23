@@ -37,18 +37,26 @@ public class TeamAndMarkerDisplay extends JPanel {
 		markerTable = new DisplayTable(MARKER_HEADERS, DEFAULT_TABLE_ROWS);
 		
 		tabs = new JTabbedPane();
-		tabs.addTab("Teams", teamTable); // Adds an empty JPanel, this panel will display teams eventually
+		tabs.addTab("Teams", teamTable);
 		tabs.addTab("Markers", markerTable);
 		
 		this.add(addButton, "aligny top");
 		this.add(removeButton, "aligny top");
 		this.add(updateButton, "aligny top");
-		this.add(tabs, "grow, span, aligny top");
+		this.add(tabs, "grow, span, aligny top, height :95%:");
 		
 	}
 	
 	public void updateTeamTable(ArrayList<SearchTeam> teams) {
 		teamTable.setTableData(teams);
+	}
+	
+	public int getSelectedTeamIndex() {
+		return teamTable.getSelectedRow();
+	}
+	
+	public int getSelectedMarkerIndex() {
+		return markerTable.getSelectedRow();
 	}
 	
 }
