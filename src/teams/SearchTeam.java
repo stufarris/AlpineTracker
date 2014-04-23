@@ -28,7 +28,22 @@ public class SearchTeam {
 
 	private float pathWidth = 25;
 
-	public enum TeamType{HIKERS, DOGS, HELICOPTER};
+	public enum TeamType{
+		HIKERS ("Hikers"),
+		DOGS ("Dogs"),
+		HELICOPTER ("Helicopter");
+		
+		private String name;
+		
+		TeamType(String name) {
+			this.name = name;
+		}
+		
+		public String toString() {
+			return name;
+		}
+		
+	};
 
 	public SearchTeam(String teamName, double latitude, double longitude, DateTime timeCreated, Image icon, TeamType type, DistanceConverter converter){
 		this.teamName = teamName;

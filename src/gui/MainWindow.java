@@ -103,7 +103,7 @@ public class MainWindow extends JFrame {
 	
 	public void addComponents() {
 		add(scrollPane, "grow, push");
-		add(teamDisplay, "growy, wrap"); //TODO: this will need to add a member variable in the near future
+		add(teamDisplay, "grow, width 40%!, wrap"); //TODO: this will need to add a member variable in the near future
 		add(infoBar, "span 2, grow, wrap");
 		revalidate();
 	}
@@ -114,6 +114,7 @@ public class MainWindow extends JFrame {
 		JMenuItem loadMap = new JMenuItem("Load Map");
 		loadMap.addActionListener(new LoadMapListener());
 		JMenuItem saveMap = new JMenuItem("Save Map");
+		saveMap.setEnabled(false);
 
 		fileMenu.add(loadMap);
 		fileMenu.add(saveMap);
@@ -131,8 +132,7 @@ public class MainWindow extends JFrame {
 		teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
 		LayerContainer layers = new LayerContainer(mapLayer.getWidth(), mapLayer.getHeight());
 
-		// Don't bother adding teams for now
-		/*
+		
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 44, 30),
 				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, team_dogs, TeamType.DOGS, converter));
@@ -142,7 +142,13 @@ public class MainWindow extends JFrame {
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 43, 0),
 				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, team_helicopter, TeamType.HELICOPTER, converter));
-		 */
+		
+		teamLayer.getTeams().get(0).setHeading(90);
+		teamLayer.getTeams().get(0).setSpeed(5);
+		teamLayer.getTeams().get(1).setHeading(345);
+		teamLayer.getTeams().get(1).setSpeed(45);
+		teamLayer.getTeams().get(2).setHeading(200);
+		teamLayer.getTeams().get(2).setSpeed(15);
 
 		layers.addLayer(mapLayer);
 		layers.addLayer(teamLayer);
@@ -219,7 +225,10 @@ public class MainWindow extends JFrame {
 					// Should be called every second
 					currentTime = new DateTime();
 					updateInfoBar();
-					if (teamLayer != null) teamLayer.updateTeams();
+					if (teamLayer != null) {
+						teamLayer.updateTeams();
+						teamDisplay.update(teamLayer.getTeams());
+					}
 					repaint();
 
 				}
