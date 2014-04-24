@@ -88,6 +88,9 @@ public class MainWindow extends JFrame {
 		
 		scrollPane = new JScrollPane();
 		teamDisplay = new TeamAndMarkerDisplay();
+		teamDisplay.getAddButton().addActionListener(new AddRemoveUpdateListener());
+		teamDisplay.getRemoveButton().addActionListener(new AddRemoveUpdateListener());
+		teamDisplay.getUpdateButton().addActionListener(new AddRemoveUpdateListener());
 		teamLayer = null;
 		mapLayer = null;
 		
@@ -180,6 +183,31 @@ public class MainWindow extends JFrame {
 			}
 		}
 
+	}
+	
+	private class AddRemoveUpdateListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if (arg0.getSource() == teamDisplay.getAddButton()) {
+				// Display add dialog, get info from it, add thing
+				AddDialog dialog = new AddDialog();
+				dialog.setVisible(true);
+			} else if (arg0.getSource() == teamDisplay.getRemoveButton()) {
+				if (teamDisplay.teamTabIsSelected()) {
+					if (teamDisplay.getSelectedTeamIndex() > -1) {
+						teamLayer.removeTeam(teamLayer.getTeams().get(teamDisplay.getSelectedTeamIndex()));
+						teamLayer.updateTeams();
+						teamDisplay.updateTeamTable(teamLayer.getTeams());
+					}
+				}
+				if (teamDisplay.markerTabIsSelected()) {
+					
+				}
+			} else if (arg0.getSource() == teamDisplay.getUpdateButton()) {
+			}
+		}
+		
 	}
 
 	public void loadNewMap() {
