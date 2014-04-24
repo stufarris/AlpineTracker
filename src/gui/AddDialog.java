@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -54,7 +56,7 @@ public class AddDialog extends JFrame {
 		headingField = new JTextField();
 		speedField = new JTextField();
 		
-		
+		cancelButton.addMouseListener(new ClickListener());
 		addComponents();
 	}
 	
@@ -105,6 +107,40 @@ public class AddDialog extends JFrame {
 				headingField.setEnabled(true);
 				speedField.setEnabled(true);
 			}
+			
+		}
+		
+	}
+	
+	public class ClickListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			setVisible(false);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
 			
 		}
 		
