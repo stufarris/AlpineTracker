@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,6 +23,12 @@ public class AddDialog extends JFrame {
 	private JLabel lonLabel = new JLabel("Longitude");
 	private JTextField latDegField, latMinField, latSecField;
 	private JTextField lonDegField, lonMinField, lonSecField;
+	private JLabel searchTeamLabel = new JLabel("Search Team:");
+	private JComboBox searchTeamSelect;
+	private JLabel headingLabel = new JLabel("Heading:");
+	private JTextField headingField;
+	private JLabel speedLabel = new JLabel("Speed:");
+	private JTextField speedField;
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
 	
@@ -28,10 +37,11 @@ public class AddDialog extends JFrame {
 	
 	public AddDialog() {
 		setTitle("Add an Item");
-		setSize(400, 200);
+		setSize(400, 300);
 		setLayout(new MigLayout());
 		setLocationRelativeTo(null);
 		typeSelect = new JComboBox<String>(types);
+		typeSelect.addItemListener(new ItemChangeListener());
 		
 		latDegField = new JTextField();
 		latMinField = new JTextField();
@@ -39,6 +49,10 @@ public class AddDialog extends JFrame {
 		lonDegField = new JTextField();
 		lonMinField = new JTextField();
 		lonSecField = new JTextField();
+		
+		searchTeamSelect = new JComboBox<String>(teamTypes);
+		headingField = new JTextField();
+		speedField = new JTextField();
 		
 		
 		addComponents();
@@ -65,6 +79,35 @@ public class AddDialog extends JFrame {
 		add(lonMinField, "grow, push");
 		add(new JLabel("Seconds:"));
 		add(lonSecField, "grow, push, wrap");
+		add(searchTeamLabel);
+		add(searchTeamSelect, "span, wrap");
+		add(headingLabel);
+		add(headingField, "grow, push, span, wrap");
+		add(speedLabel);
+		add(speedField, "grow, push, span, wrap");
+		add(okButton);
+		add(cancelButton);
+	}
+	
+	public class ItemChangeListener implements ItemListener{
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			JComboBox cb = (JComboBox)e.getSource();
+			String selectedType = (String)cb.getSelectedItem();
+			if(selectedType == "Marker"){
+				searchTeamSelect.setEnabled(false);
+				headingField.setEnabled(false);
+				speedField.setEnabled(false);
+			}
+			else if(selectedType == "Team"){
+				searchTeamSelect.setEnabled(true);
+				headingField.setEnabled(true);
+				speedField.setEnabled(true);
+			}
+			
+		}
+		
 	}
 	
 }
