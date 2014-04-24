@@ -202,9 +202,15 @@ public class MainWindow extends JFrame {
 					}
 				}
 				if (teamDisplay.markerTabIsSelected()) {
-					
+					//TODO remove marker
 				}
 			} else if (arg0.getSource() == teamDisplay.getUpdateButton()) {
+				if (teamDisplay.teamTabIsSelected()) {
+					//TODO update location dialog
+				}
+				if (teamDisplay.markerTabIsSelected()) {
+					//TODO update location dialog
+				}
 			}
 		}
 		
