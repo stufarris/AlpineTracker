@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -16,7 +18,11 @@ public class TeamAndMarkerDisplay extends JPanel {
 	
 	// TODO: This panel needs to hold three buttons and a JTabbedPane
 	
+	
+
 	private JButton addButton, removeButton, updateButton;
+	
+	private AddTeamDialog addTeamDialog;
 	
 	private JTabbedPane tabs;
 	
@@ -30,8 +36,11 @@ public class TeamAndMarkerDisplay extends JPanel {
 		this.setLayout(new MigLayout("wrap 3"));
 		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		addButton = new JButton("Add");
+		addButton.addActionListener(new ButtonListener());
 		removeButton = new JButton("Remove");
+		removeButton.addActionListener(new ButtonListener());
 		updateButton = new JButton("Update");
+		updateButton.addActionListener(new ButtonListener());
 		
 		teamTable = new DisplayTable(TEAM_HEADERS, DEFAULT_TABLE_ROWS);
 		markerTable = new DisplayTable(MARKER_HEADERS, DEFAULT_TABLE_ROWS);
@@ -58,5 +67,16 @@ public class TeamAndMarkerDisplay extends JPanel {
 	public int getSelectedMarkerIndex() {
 		return markerTable.getSelectedRow();
 	}
+	
+	class ButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == addButton){
+				addTeamDialog = new AddTeamDialog();
+				addTeamDialog.setVisible(true);
+			}			
+		}		
+	}
+
 	
 }

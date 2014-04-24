@@ -252,6 +252,8 @@ public class MainWindow extends JFrame {
 	public JFrame getMainWindow() {
 		return this;
 	}
+	
+
 
 	public static void main(String[] args) {
 		//		 Set to system look and feel
