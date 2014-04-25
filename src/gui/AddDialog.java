@@ -14,9 +14,12 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import teams.SearchTeam;
 import net.miginfocom.swing.MigLayout;
 
 public class AddDialog extends JFrame {
+	
+	private TeamLayer teamLayer;
 
 	private JLabel typeLabel = new JLabel("Type:");
 	private JComboBox typeSelect;
@@ -38,7 +41,8 @@ public class AddDialog extends JFrame {
 	private final static String[] types = {"Team", "Marker"};
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
 
-	public AddDialog() {
+	public AddDialog(TeamLayer teamLayer) {
+		this.teamLayer = teamLayer;
 		setTitle("Add an Item");
 		setSize(400, 300);
 		setLayout(new MigLayout());
@@ -116,6 +120,15 @@ public class AddDialog extends JFrame {
 		public void mouseClicked(MouseEvent arg0) {
 			
 			String selection = typeSelect.getSelectedItem().toString();
+			String teamType = typeSelect.getSelectedItem().toString();
+			
+			if (teamType.equals("Helicopter")){
+				SearchTeam.TeamType teamTypeToPass = SearchTeam.TeamType.HELICOPTER;
+			} else if (teamType.equals("Dogs")){
+				SearchTeam.TeamType teamTypeToPass = SearchTeam.TeamType.DOGS;
+			} else if (teamType.equals("Hikers")){
+				SearchTeam.TeamType teamTypeToPass = SearchTeam.TeamType.HIKERS;
+			} 
 			
 			if (selection.equals("Team")){
 				int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum, speedNum = 0;
@@ -153,7 +166,7 @@ public class AddDialog extends JFrame {
 				
 				setVisible(false);
 				
-				//create new search team here
+				teamLayer.addTeam(new SearchTeam(name, ));
 				
 				
 			} else if (selection.equals("Marker")){
