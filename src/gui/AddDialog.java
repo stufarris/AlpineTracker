@@ -181,7 +181,7 @@ public class AddDialog extends JFrame {
 				double latToPass = DistanceConverter.convertDMStoDecimal(latDegNum, latMinNum, latSecNum);
 				double lonToPass = DistanceConverter.convertDMStoDecimal(lonDegNum, lonMinNum, lonSecNum);
 				
-				
+				//
 				
 				setVisible(false);
 				
