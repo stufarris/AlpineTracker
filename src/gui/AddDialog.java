@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -16,7 +17,7 @@ import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 
 public class AddDialog extends JFrame {
-	
+
 	private JLabel typeLabel = new JLabel("Type:");
 	private JComboBox typeSelect;
 	private JLabel nameLabel = new JLabel("Name:");
@@ -33,10 +34,10 @@ public class AddDialog extends JFrame {
 	private JTextField speedField;
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
-	
+
 	private final static String[] types = {"Team", "Marker"};
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
-	
+
 	public AddDialog() {
 		setTitle("Add an Item");
 		setSize(400, 300);
@@ -44,22 +45,23 @@ public class AddDialog extends JFrame {
 		setLocationRelativeTo(null);
 		typeSelect = new JComboBox<String>(types);
 		typeSelect.addItemListener(new ItemChangeListener());
-		
+
 		latDegField = new JTextField();
 		latMinField = new JTextField();
 		latSecField = new JTextField();
 		lonDegField = new JTextField();
 		lonMinField = new JTextField();
 		lonSecField = new JTextField();
-		
+
 		searchTeamSelect = new JComboBox<String>(teamTypes);
 		headingField = new JTextField();
 		speedField = new JTextField();
-		
-		cancelButton.addMouseListener(new ClickListener());
+
+		cancelButton.addMouseListener(new CancelListener());
+		okButton.addMouseListener(new okListener());
 		addComponents();
 	}
-	
+
 	public void addComponents() {
 		add(typeLabel);
 		add(typeSelect, "span, wrap");
@@ -90,9 +92,8 @@ public class AddDialog extends JFrame {
 		add(okButton);
 		add(cancelButton);
 	}
-	
-	public class ItemChangeListener implements ItemListener{
 
+	public class ItemChangeListener implements ItemListener{
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 			JComboBox cb = (JComboBox)e.getSource();
@@ -107,43 +108,152 @@ public class AddDialog extends JFrame {
 				headingField.setEnabled(true);
 				speedField.setEnabled(true);
 			}
-			
 		}
-		
 	}
-	
-	public class ClickListener implements MouseListener{
 
+	public class okListener implements MouseListener{
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
+			
+			String selection = typeSelect.getSelectedItem().toString();
+			
+			if (selection.equals("Team")){
+				int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum, speedNum = 0;
+
+				String name = nameField.getText();
+				String latDeg = latDegField.getText();
+				String latMin = latMinField.getText();
+				String latSec = latSecField.getText();
+				String lonDeg = lonDegField.getText();
+				String lonMin = lonMinField.getText();
+				String lonSec = lonSecField.getText();
+				String heading = headingField.getText();
+				String speed = speedField.getText();
+				
+				if (name.length() == 0){
+					JOptionPane.showMessageDialog(null, "Please enter a team name.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (isNumeric(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
+				else return;
+				if (isNumeric(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
+				else return;
+				if (isNumeric(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
+				else return;
+				if (isNumeric(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
+				else return;
+				if (isNumeric(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
+				else return;
+				if (isNumeric(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
+				else return;
+				if (isNumeric(heading, "Please enter a numerical value for heading.")) headingNum = Integer.parseInt(heading);
+				else return;
+				if (isNumeric(speed, "Please enter a numerical value for speed.")) speedNum = Integer.parseInt(speed);
+				else return;
+				
+				setVisible(false);
+				
+				//create new search team here
+				
+				
+			} else if (selection.equals("Marker")){
+				int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum = 0;
+				
+				String name = nameField.getText();
+				String latDeg = latDegField.getText();
+				String latMin = latMinField.getText();
+				String latSec = latSecField.getText();
+				String lonDeg = lonDegField.getText();
+				String lonMin = lonMinField.getText();
+				String lonSec = lonSecField.getText();
+				
+				if (name.length() == 0){
+					JOptionPane.showMessageDialog(null, "Please enter a team name.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (isNumeric(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
+				else return;
+				if (isNumeric(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
+				else return;
+				if (isNumeric(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
+				else return;
+				if (isNumeric(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
+				else return;
+				if (isNumeric(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
+				else return;
+				if (isNumeric(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
+				else return;
+				
+				setVisible(false);
+				
+				//create new marker here
+			}
+			
+		}
+
+		private Boolean isNumeric(String s, String errorMessage){
+			try {
+				Integer.parseInt(s);
+			} catch(NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
+	public class CancelListener implements MouseListener{
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
 			setVisible(false);
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
-	}
-	
+	}	
 }
