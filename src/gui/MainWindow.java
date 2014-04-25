@@ -191,7 +191,7 @@ public class MainWindow extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			if (arg0.getSource() == teamDisplay.getAddButton()) {
 				// Display add dialog, get info from it, add thing
-				AddDialog dialog = new AddDialog(teamLayer);
+				AddDialog dialog = new AddDialog(teamLayer, converter);
 				dialog.setVisible(true);
 			} else if (arg0.getSource() == teamDisplay.getRemoveButton()) {
 				if (teamDisplay.teamTabIsSelected()) {

@@ -1,9 +1,14 @@
 package gui;
 
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,12 +19,15 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.joda.time.DateTime;
+
 import teams.SearchTeam;
 import net.miginfocom.swing.MigLayout;
 
 public class AddDialog extends JFrame {
 	
 	private TeamLayer teamLayer;
+	private DistanceConverter converter;
 
 	private JLabel typeLabel = new JLabel("Type:");
 	private JComboBox typeSelect;
@@ -41,8 +49,10 @@ public class AddDialog extends JFrame {
 	private final static String[] types = {"Team", "Marker"};
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
 
-	public AddDialog(TeamLayer teamLayer) {
+	public AddDialog(TeamLayer teamLayer, DistanceConverter converter) {
 		this.teamLayer = teamLayer;
+		this.converter = converter;
+		
 		setTitle("Add an Item");
 		setSize(400, 300);
 		setLayout(new MigLayout());
@@ -61,8 +71,8 @@ public class AddDialog extends JFrame {
 		headingField = new JTextField();
 		speedField = new JTextField();
 
-		cancelButton.addMouseListener(new CancelListener());
-		okButton.addMouseListener(new okListener());
+		cancelButton.addActionListener(new CancelListener());
+		okButton.addActionListener(new okListener());
 		addComponents();
 	}
 
@@ -115,9 +125,9 @@ public class AddDialog extends JFrame {
 		}
 	}
 
-	public class okListener implements MouseListener{
+	public class okListener implements ActionListener{
 		@Override
-		public void mouseClicked(MouseEvent arg0) {
+		public void actionPerformed(ActionEvent arg0) {
 			
 			String selection = typeSelect.getSelectedItem().toString();
 			String teamType = typeSelect.getSelectedItem().toString();
@@ -164,9 +174,12 @@ public class AddDialog extends JFrame {
 				if (isNumeric(speed, "Please enter a numerical value for speed.")) speedNum = Integer.parseInt(speed);
 				else return;
 				
+				double latToPass = converter.convertDMStoDecimal(latDegNum, latMinNum, latSecNum);
+				double lonToPass = converter.convertDMStoDecimal(lonDegNum, lonMinNum, lonSecNum);
+				
 				setVisible(false);
 				
-				teamLayer.addTeam(new SearchTeam(name, ));
+				//teamLayer.addTeam(new SearchTeam(name, latToPass, lonToPass, null, ));
 				
 				
 			} else if (selection.equals("Marker")){
@@ -213,60 +226,12 @@ public class AddDialog extends JFrame {
 			}
 			return true;
 		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
 	}
 
-	public class CancelListener implements MouseListener{
+	public class CancelListener implements ActionListener{
 		@Override
-		public void mouseClicked(MouseEvent arg0) {
+		public void actionPerformed(ActionEvent arg0) {
 			setVisible(false);
 		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-	}	
+	}
 }
