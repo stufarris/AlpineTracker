@@ -45,7 +45,7 @@ public class MainWindow extends JFrame {
 	private JScrollPane scrollPane;
 	private TeamAndMarkerDisplay teamDisplay;
 
-	private static final int INFO_BAR_HEIGHT = 20;
+	private static final int INFO_BAR_HEIGHT = 15;
 
 	private DistanceConverter converter;
 
