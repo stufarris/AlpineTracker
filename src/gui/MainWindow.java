@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -50,7 +50,21 @@ public class MainWindow extends JFrame {
 	private DistanceConverter converter;
 
 	private Image map;
-	private Image team_hiker, team_dogs, team_helicopter;
+	private Image teamHiker, teamDogs, teamHelicopter;
+
+	public Image getTeamHiker() {
+		return teamHiker;
+	}
+
+	public Image getTeamDogs() {
+		return teamDogs;
+	}
+
+	public Image getTeamHelicopter() {
+		return teamHelicopter;
+	}
+
+
 
 	private Timer timer = new Timer();
 	private JLabel timeLabel;
@@ -68,9 +82,9 @@ public class MainWindow extends JFrame {
 	public MainWindow() {
 
 		// Load icons for teams and markers
-		team_dogs = loadIcon(getClass().getResource(dogImage));
-		team_hiker = loadIcon(getClass().getResource(hikerImage));
-		team_helicopter = loadIcon(getClass().getResource(heliImage));
+		teamDogs = loadIcon(getClass().getResource(dogImage));
+		teamHiker = loadIcon(getClass().getResource(hikerImage));
+		teamHelicopter = loadIcon(getClass().getResource(heliImage));
 
 		// Set timer frequency to 1 second (update frequency)
 		timer.schedule(new Updater(), 0, 1000);
@@ -138,13 +152,13 @@ public class MainWindow extends JFrame {
 		
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 44, 30),
-				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, team_dogs, TeamType.DOGS, converter));
+				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, teamDogs, TeamType.DOGS, converter));
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 40, 30),
-				DistanceConverter.convertDMStoDecimal(105, 55, 0), currentTime, team_hiker, TeamType.HIKERS, converter));
+				DistanceConverter.convertDMStoDecimal(105, 55, 0), currentTime, teamHiker, TeamType.HIKERS, converter));
 		teamLayer.addTeam(new SearchTeam("Test Team",
 				DistanceConverter.convertDMStoDecimal(39, 43, 0),
-				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, team_helicopter, TeamType.HELICOPTER, converter));
+				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, teamHelicopter, TeamType.HELICOPTER, converter));
 		
 		teamLayer.getTeams().get(0).setHeading(90);
 		teamLayer.getTeams().get(0).setSpeed(10);
@@ -191,7 +205,7 @@ public class MainWindow extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			if (arg0.getSource() == teamDisplay.getAddButton()) {
 				// Display add dialog, get info from it, add thing
-				AddDialog dialog = new AddDialog(teamLayer, converter);
+				AddDialog dialog = new AddDialog(teamLayer, converter, getMainWindow());
 				dialog.setVisible(true);
 			} else if (arg0.getSource() == teamDisplay.getRemoveButton()) {
 				if (teamDisplay.teamTabIsSelected()) {
@@ -205,12 +219,16 @@ public class MainWindow extends JFrame {
 					//TODO remove marker
 				}
 			} else if (arg0.getSource() == teamDisplay.getUpdateButton()) {
-				if (teamDisplay.teamTabIsSelected()) {
-					//TODO update location dialog
+				if (
+						(teamDisplay.teamTabIsSelected() && teamDisplay.getSelectedTeamIndex() > -1) ||
+						(teamDisplay.markerTabIsSelected() && teamDisplay.getSelectedMarkerIndex() > -1)
+						) {
+					UpdateDialog dialog = new UpdateDialog(teamLayer, converter, teamDisplay);
+					dialog.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Please select a team or marker first.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				if (teamDisplay.markerTabIsSelected()) {
-					//TODO update location dialog
-				}
+				
 			}
 		}
 		
@@ -283,7 +301,7 @@ public class MainWindow extends JFrame {
 		timeLabel.setText(timeString);
 	}
 
-	public JFrame getMainWindow() {
+	public MainWindow getMainWindow() {
 		return this;
 	}
 	

@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -22,12 +23,14 @@ import javax.swing.SwingConstants;
 import org.joda.time.DateTime;
 
 import teams.SearchTeam;
+import teams.SearchTeam.TeamType;
 import net.miginfocom.swing.MigLayout;
 
 public class AddDialog extends JFrame {
 	
 	private TeamLayer teamLayer;
 	private DistanceConverter converter;
+	private MainWindow mainWindow;
 
 	private JLabel typeLabel = new JLabel("Type:");
 	private JComboBox typeSelect;
@@ -45,13 +48,20 @@ public class AddDialog extends JFrame {
 	private JTextField speedField;
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
+	
+	Image teamDogs, teamHikers, teamHelicopter;
 
 	private final static String[] types = {"Team", "Marker"};
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
 
-	public AddDialog(TeamLayer teamLayer, DistanceConverter converter) {
+	public AddDialog(TeamLayer teamLayer, DistanceConverter converter, MainWindow mainWindow) {
 		this.teamLayer = teamLayer;
 		this.converter = converter;
+		this.mainWindow = mainWindow;
+		this.teamDogs = mainWindow.getTeamDogs();
+		this.teamHikers = mainWindow.getTeamHiker();
+		this.teamHelicopter = mainWindow.getTeamHelicopter();
+		
 		
 		setTitle("Add an Item");
 		setSize(400, 300);
@@ -97,6 +107,7 @@ public class AddDialog extends JFrame {
 		add(lonMinField, "grow, push");
 		add(new JLabel("Seconds:"));
 		add(lonSecField, "grow, push, wrap");
+		add(new JSeparator(SwingConstants.HORIZONTAL), "grow, span, wrap");
 		add(searchTeamLabel);
 		add(searchTeamSelect, "span, wrap");
 		add(headingLabel);
@@ -130,18 +141,11 @@ public class AddDialog extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			
 			String selection = typeSelect.getSelectedItem().toString();
-			String teamType = typeSelect.getSelectedItem().toString();
-			
-			if (teamType.equals("Helicopter")){
-				SearchTeam.TeamType teamTypeToPass = SearchTeam.TeamType.HELICOPTER;
-			} else if (teamType.equals("Dogs")){
-				SearchTeam.TeamType teamTypeToPass = SearchTeam.TeamType.DOGS;
-			} else if (teamType.equals("Hikers")){
-				SearchTeam.TeamType teamTypeToPass = SearchTeam.TeamType.HIKERS;
-			} 
+			String teamType = searchTeamSelect.getSelectedItem().toString();
 			
 			if (selection.equals("Team")){
-				int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum, speedNum = 0;
+				int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum;
+				double speedNum = 0;
 
 				String name = nameField.getText();
 				String latDeg = latDegField.getText();
@@ -157,29 +161,46 @@ public class AddDialog extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please enter a team name.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (isNumeric(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
+				if (isInteger(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
 				else return;
-				if (isNumeric(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
+				if (isInteger(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
 				else return;
-				if (isNumeric(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
+				if (isInteger(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
 				else return;
-				if (isNumeric(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
+				if (isInteger(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
 				else return;
-				if (isNumeric(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
+				if (isInteger(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
 				else return;
-				if (isNumeric(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
+				if (isInteger(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
 				else return;
-				if (isNumeric(heading, "Please enter a numerical value for heading.")) headingNum = Integer.parseInt(heading);
+				if (isInteger(heading, "Please enter a numerical value for heading.")) headingNum = Integer.parseInt(heading);
 				else return;
-				if (isNumeric(speed, "Please enter a numerical value for speed.")) speedNum = Integer.parseInt(speed);
+				if (isDouble(speed, "Please enter a decimal value for speed.")) speedNum = Double.parseDouble(speed);
 				else return;
 				
-				double latToPass = converter.convertDMStoDecimal(latDegNum, latMinNum, latSecNum);
-				double lonToPass = converter.convertDMStoDecimal(lonDegNum, lonMinNum, lonSecNum);
+				double latToPass = DistanceConverter.convertDMStoDecimal(latDegNum, latMinNum, latSecNum);
+				double lonToPass = DistanceConverter.convertDMStoDecimal(lonDegNum, lonMinNum, lonSecNum);
+				
+				
 				
 				setVisible(false);
 				
-				//teamLayer.addTeam(new SearchTeam(name, latToPass, lonToPass, null, ));
+				SearchTeam s;
+				
+				if (teamType.equals("Helicopter")){
+					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamHelicopter(), TeamType.HELICOPTER, converter);
+				} else if (teamType.equals("Dogs")){
+					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamDogs(), TeamType.DOGS, converter);
+				} else if (teamType.equals("Hikers")){
+					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamHiker(), TeamType.HIKERS, converter);
+				} else {
+					s = null;
+				}
+				
+				s.setHeading(headingNum);
+				s.setSpeed(speedNum);
+				
+				teamLayer.addTeam(s);
 				
 				
 			} else if (selection.equals("Marker")){
@@ -197,17 +218,17 @@ public class AddDialog extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please enter a team name.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (isNumeric(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
+				if (isInteger(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
 				else return;
-				if (isNumeric(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
+				if (isInteger(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
 				else return;
-				if (isNumeric(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
+				if (isInteger(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
 				else return;
-				if (isNumeric(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
+				if (isInteger(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
 				else return;
-				if (isNumeric(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
+				if (isInteger(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
 				else return;
-				if (isNumeric(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
+				if (isInteger(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
 				else return;
 				
 				setVisible(false);
@@ -217,9 +238,19 @@ public class AddDialog extends JFrame {
 			
 		}
 
-		private Boolean isNumeric(String s, String errorMessage){
+		private Boolean isInteger(String s, String errorMessage) {
 			try {
 				Integer.parseInt(s);
+			} catch(NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			return true;
+		}
+		
+		private Boolean isDouble(String s, String errorMessage) {
+			try {
+				Double.parseDouble(s);
 			} catch(NumberFormatException nfe) {
 				JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
