@@ -133,6 +133,7 @@ public class UpdateDialog extends JFrame {
 			if (teamAndMarkerDisplay.teamTabIsSelected()) {
 				int index = teamAndMarkerDisplay.getSelectedTeamIndex();
 				teamLayer.getTeams().get(index).setHeading(headingNum);
+				teamLayer.getTeams().get(index).setSpeed(speedNum);
 				teamLayer.getTeams().get(index).setLocation(latToPass, lonToPass);
 			} else if (teamAndMarkerDisplay.markerTabIsSelected()) {
 				//markerLayer.update
