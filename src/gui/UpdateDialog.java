@@ -96,7 +96,8 @@ public class UpdateDialog extends JFrame {
 
 
 
-			int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum, speedNum = 0;
+			int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum;
+			double speedNum = 0;
 
 			String latDeg = latDegField.getText();
 			String latMin = latMinField.getText();
@@ -107,42 +108,54 @@ public class UpdateDialog extends JFrame {
 			String heading = headingField.getText();
 			String speed = speedField.getText();
 
-			if (isNumeric(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
+			if (isInteger(latDeg, "Please enter a numerical value for latitude degrees.")) latDegNum = Integer.parseInt(latDeg);
 			else return;
-			if (isNumeric(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
+			if (isInteger(latMin, "Please enter a numerical value for latitude minutes.")) latMinNum = Integer.parseInt(latMin);
 			else return;
-			if (isNumeric(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
+			if (isInteger(latSec, "Please enter a numerical value for latitude seconds.")) latSecNum = Integer.parseInt(latSec);
 			else return;
-			if (isNumeric(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
+			if (isInteger(lonDeg, "Please enter a numerical value for longitude degrees.")) lonDegNum = Integer.parseInt(lonDeg);
 			else return;
-			if (isNumeric(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
+			if (isInteger(lonMin, "Please enter a numerical value for longitude minutes.")) lonMinNum = Integer.parseInt(lonMin);
 			else return;
-			if (isNumeric(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
+			if (isInteger(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
 			else return;
-			if (isNumeric(heading, "Please enter a numerical value for heading.")) headingNum = Integer.parseInt(heading);
+			if (isInteger(heading, "Please enter a numerical value for heading.")) headingNum = Integer.parseInt(heading);
 			else return;
-			if (isNumeric(speed, "Please enter a numerical value for speed.")) speedNum = Integer.parseInt(speed);
+			if (isDouble(speed, "Please enter a numerical value for speed.")) speedNum = Double.parseDouble(speed);
 			else return;
 
-			double latToPass = converter.convertDMStoDecimal(latDegNum, latMinNum, latSecNum);
-			double lonToPass = converter.convertDMStoDecimal(lonDegNum, lonMinNum, lonSecNum);
+			double latToPass = DistanceConverter.convertDMStoDecimal(latDegNum, latMinNum, latSecNum);
+			double lonToPass = DistanceConverter.convertDMStoDecimal(lonDegNum, lonMinNum, lonSecNum);
+			
+			setVisible(false);
 
 			if (teamAndMarkerDisplay.teamTabIsSelected()) {
-				//teamLayer.update
+				int index = teamAndMarkerDisplay.getSelectedTeamIndex();
+				teamLayer.getTeams().get(index).setHeading(headingNum);
+				teamLayer.getTeams().get(index).setLocation(latToPass, lonToPass);
 			} else if (teamAndMarkerDisplay.markerTabIsSelected()) {
 				//markerLayer.update
 			}
-
-			setVisible(false);
 
 
 
 
 		}
 
-		private Boolean isNumeric(String s, String errorMessage){
+		private Boolean isInteger(String s, String errorMessage) {
 			try {
 				Integer.parseInt(s);
+			} catch(NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			return true;
+		}
+		
+		private Boolean isDouble(String s, String errorMessage) {
+			try {
+				Double.parseDouble(s);
 			} catch(NumberFormatException nfe) {
 				JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
