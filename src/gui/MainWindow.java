@@ -320,6 +320,8 @@ public class MainWindow extends JFrame {
 			public void run() {
 				MainWindow w = new MainWindow();
 				w.setVisible(true);
+				MapInitDialog d = new MapInitDialog();
+				d.setVisible(true);
 			}
 		});
 
