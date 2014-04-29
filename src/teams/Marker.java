@@ -2,6 +2,7 @@ package teams;
 
 import gui.DistanceConverter;
 
+import java.awt.Graphics;
 import java.awt.Image;
 
 import org.joda.time.DateTime;
@@ -23,6 +24,11 @@ public class Marker {
 		this.timeCreated = timeCreated;
 		this.icon = icon;
 		this.converter = converter;
+	}
+	
+	public void draw(Graphics g) {
+		// Draw Icon
+		g.drawImage(icon, converter.longDistanceToXPixel(longitude) - 16, converter.latDistanceToYPixel(latitude) - 35, null);
 	}
 
 }

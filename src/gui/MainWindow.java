@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.joda.time.DateTime;
 
+import teams.Marker;
 import teams.SearchTeam;
 import teams.SearchTeam.TeamType;
 import net.miginfocom.swing.MigLayout;
@@ -49,47 +50,13 @@ public class MainWindow extends JFrame {
 	private DistanceConverter converter;
 
 	private Image map;
-	private Image teamHiker, teamDogs, teamHelicopter;
+	private Image teamHikerIcon, teamDogsIcon, teamHelicopterIcon, markerIcon;
 	
 	private double topLeftLat;
 	private double topLeftLong;
 	private double botRightLat;
 	private double botRightLong;
 	private boolean cornersRecieved;
-	
-	public void setTopLeftLat(double topLeftLat) {
-		this.topLeftLat = topLeftLat;
-	}
-
-	public void setTopLeftLong(double topLeftLong) {
-		this.topLeftLong = topLeftLong;
-	}
-
-	public void setBotRightLat(double botRightLat) {
-		this.botRightLat = botRightLat;
-	}
-
-	public void setBotRightLong(double botRightLong) {
-		this.botRightLong = botRightLong;
-	}
-
-	public void setCornersRecieved(boolean cornersRecieved) {
-		this.cornersRecieved = cornersRecieved;
-	}
-
-	public Image getTeamHiker() {
-		return teamHiker;
-	}
-
-	public Image getTeamDogs() {
-		return teamDogs;
-	}
-
-	public Image getTeamHelicopter() {
-		return teamHelicopter;
-	}
-
-
 
 	private Timer timer = new Timer();
 	private JLabel timeLabel;
@@ -100,6 +67,7 @@ public class MainWindow extends JFrame {
 	private static final String dogImage = "/team_dog.png";
 	private static final String hikerImage = "/team_hiker.png";
 	private static final String heliImage = "/team_helicopter.png";
+	private static final String markerImage = "/marker_black.png";
 
 	// File for loaded map
 	File mapFile;
@@ -107,9 +75,10 @@ public class MainWindow extends JFrame {
 	public MainWindow() {
 
 		// Load icons for teams and markers
-		teamDogs = loadIcon(getClass().getResource(dogImage));
-		teamHiker = loadIcon(getClass().getResource(hikerImage));
-		teamHelicopter = loadIcon(getClass().getResource(heliImage));
+		teamDogsIcon = loadIcon(getClass().getResource(dogImage));
+		teamHikerIcon = loadIcon(getClass().getResource(hikerImage));
+		teamHelicopterIcon = loadIcon(getClass().getResource(heliImage));
+		markerIcon = loadIcon(getClass().getResource(markerImage));
 
 		// Set timer frequency to 1 second (update frequency)
 		timer.schedule(new Updater(), 0, 1000);
@@ -137,6 +106,8 @@ public class MainWindow extends JFrame {
 		mapLayer = null;
 		
 		addComponents();
+		
+		
 
 	}
 	
@@ -176,24 +147,6 @@ public class MainWindow extends JFrame {
 		mapLayer = new MapLayer(this.map);
 		teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
 		LayerContainer layers = new LayerContainer(mapLayer.getWidth(), mapLayer.getHeight());
-
-//		
-//		teamLayer.addTeam(new SearchTeam("Test Team",
-//				DistanceConverter.convertDMStoDecimal(39, 44, 30),
-//				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, teamDogs, TeamType.DOGS, converter));
-//		teamLayer.addTeam(new SearchTeam("Test Team",
-//				DistanceConverter.convertDMStoDecimal(39, 40, 30),
-//				DistanceConverter.convertDMStoDecimal(105, 55, 0), currentTime, teamHiker, TeamType.HIKERS, converter));
-//		teamLayer.addTeam(new SearchTeam("Test Team",
-//				DistanceConverter.convertDMStoDecimal(39, 43, 0),
-//				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, teamHelicopter, TeamType.HELICOPTER, converter));
-//		
-//		teamLayer.getTeams().get(0).setHeading(90);
-//		teamLayer.getTeams().get(0).setSpeed(10);
-//		teamLayer.getTeams().get(1).setHeading(345);
-//		teamLayer.getTeams().get(1).setSpeed(5);
-//		teamLayer.getTeams().get(2).setHeading(90);
-//		teamLayer.getTeams().get(2).setSpeed(50);
 
 		layers.addLayer(mapLayer);
 		layers.addLayer(teamLayer);
@@ -289,6 +242,7 @@ public class MainWindow extends JFrame {
 		removeComponents();
 		setUpLayerContainer();
 		addComponents();
+	
 	}
 
 	public void setConverter(DistanceConverter converter) {
@@ -363,5 +317,44 @@ public class MainWindow extends JFrame {
 		});
 
 	}
+	
+	public void setTopLeftLat(double topLeftLat) {
+		this.topLeftLat = topLeftLat;
+	}
+
+	public void setTopLeftLong(double topLeftLong) {
+		this.topLeftLong = topLeftLong;
+	}
+
+	public void setBotRightLat(double botRightLat) {
+		this.botRightLat = botRightLat;
+	}
+
+	public void setBotRightLong(double botRightLong) {
+		this.botRightLong = botRightLong;
+	}
+
+	public void setCornersRecieved(boolean cornersRecieved) {
+		this.cornersRecieved = cornersRecieved;
+	}
+
+	public Image getTeamHikerIcon() {
+		return teamHikerIcon;
+	}
+
+	public Image getTeamDogsIcon() {
+		return teamDogsIcon;
+	}
+
+	public Image getTeamHelicopterIcon() {
+		return teamHelicopterIcon;
+	}
+
+	public Image getMarkerIcon() {
+		return markerIcon;
+	}
+	
+	
+
 
 }

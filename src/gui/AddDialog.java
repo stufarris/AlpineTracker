@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 
 import org.joda.time.DateTime;
 
+import teams.Marker;
 import teams.SearchTeam;
 import teams.SearchTeam.TeamType;
 import net.miginfocom.swing.MigLayout;
@@ -50,8 +51,6 @@ public class AddDialog extends JDialog {
 	private JTextField speedField;
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
-	
-	Image teamDogs, teamHikers, teamHelicopter;
 
 	private final static String[] types = {"Team", "Marker"};
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
@@ -61,9 +60,6 @@ public class AddDialog extends JDialog {
 		this.teamLayer = teamLayer;
 		this.converter = converter;
 		this.mainWindow = mainWindow;
-		this.teamDogs = mainWindow.getTeamDogs();
-		this.teamHikers = mainWindow.getTeamHiker();
-		this.teamHelicopter = mainWindow.getTeamHelicopter();
 		
 		
 		setTitle("Add an Item");
@@ -191,11 +187,11 @@ public class AddDialog extends JDialog {
 				SearchTeam s;
 				
 				if (teamType.equals("Helicopter")){
-					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamHelicopter(), TeamType.HELICOPTER, converter);
+					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamHelicopterIcon(), TeamType.HELICOPTER, converter);
 				} else if (teamType.equals("Dogs")){
-					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamDogs(), TeamType.DOGS, converter);
+					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamDogsIcon(), TeamType.DOGS, converter);
 				} else if (teamType.equals("Hikers")){
-					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamHiker(), TeamType.HIKERS, converter);
+					s = new SearchTeam(name, latToPass, lonToPass, new DateTime(), mainWindow.getTeamHikerIcon(), TeamType.HIKERS, converter);
 				} else {
 					s = null;
 				}
@@ -236,7 +232,8 @@ public class AddDialog extends JDialog {
 				
 				setVisible(false);
 				
-				//create new marker here
+				Marker m = new Marker("test", DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerIcon(), converter);
+				teamLayer.getMarkers().add(m);
 			}
 			
 		}
