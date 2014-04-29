@@ -31,7 +31,6 @@ import org.joda.time.DateTime;
 
 import teams.SearchTeam;
 import teams.SearchTeam.TeamType;
-
 import net.miginfocom.swing.MigLayout;
 
 public class MainWindow extends JFrame {
@@ -51,6 +50,32 @@ public class MainWindow extends JFrame {
 
 	private Image map;
 	private Image teamHiker, teamDogs, teamHelicopter;
+	
+	private double topLeftLat;
+	private double topLeftLong;
+	private double botRightLat;
+	private double botRightLong;
+	private boolean cornersRecieved;
+	
+	public void setTopLeftLat(double topLeftLat) {
+		this.topLeftLat = topLeftLat;
+	}
+
+	public void setTopLeftLong(double topLeftLong) {
+		this.topLeftLong = topLeftLong;
+	}
+
+	public void setBotRightLat(double botRightLat) {
+		this.botRightLat = botRightLat;
+	}
+
+	public void setBotRightLong(double botRightLong) {
+		this.botRightLong = botRightLong;
+	}
+
+	public void setCornersRecieved(boolean cornersRecieved) {
+		this.cornersRecieved = cornersRecieved;
+	}
 
 	public Image getTeamHiker() {
 		return teamHiker;
@@ -193,7 +218,11 @@ public class MainWindow extends JFrame {
 			int returnVal = chooser.showOpenDialog(getMainWindow());
 			if(returnVal == JFileChooser.APPROVE_OPTION) {
 				mapFile = chooser.getSelectedFile();
-				loadNewMap();
+				MapInitDialog mapInitDialog = new MapInitDialog(converter, getMainWindow());
+				mapInitDialog.setVisible(true);
+				if(cornersRecieved == true){
+					loadNewMap();
+				}
 			}
 		}
 
@@ -245,15 +274,19 @@ public class MainWindow extends JFrame {
 
 
 		// This will happen when the second dialog box is completed
-		double topLeftLat = DistanceConverter.convertDMStoDecimal(39, 45, 0);
-		double topLeftLong = DistanceConverter.convertDMStoDecimal(106, 0, 0);
-		double botRightLat = DistanceConverter.convertDMStoDecimal(39, 37, 30);
-		double botRightLong = DistanceConverter.convertDMStoDecimal(105, 52, 30);
-		converter = new DistanceConverter(topLeftLat, topLeftLong, botRightLat, botRightLong, map.getWidth(null), map.getHeight(null));
+//		double topLeftLat = DistanceConverter.convertDMStoDecimal(39, 45, 0);
+//		double topLeftLong = DistanceConverter.convertDMStoDecimal(106, 0, 0);
+//		double botRightLat = DistanceConverter.convertDMStoDecimal(39, 37, 30);
+//		double botRightLong = DistanceConverter.convertDMStoDecimal(105, 52, 30);
+		setConverter(new DistanceConverter(topLeftLat, topLeftLong, botRightLat, botRightLong, map.getWidth(null), map.getHeight(null)));
 		
 		removeComponents();
 		setUpLayerContainer();
 		addComponents();
+	}
+
+	public void setConverter(DistanceConverter converter) {
+		this.converter = converter;
 	}
 
 	public Image loadIcon(URL imageLocation) {
@@ -320,8 +353,6 @@ public class MainWindow extends JFrame {
 			public void run() {
 				MainWindow w = new MainWindow();
 				w.setVisible(true);
-				MapInitDialog d = new MapInitDialog();
-				d.setVisible(true);
 			}
 		});
 
