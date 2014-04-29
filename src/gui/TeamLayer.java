@@ -31,6 +31,10 @@ public class TeamLayer extends Layer {
 	}
 	
 	//updates teams so they can be drawn in the correct location
+	public void removeMarker(Marker m) {
+		markers.remove(m);
+	}
+
 	public void updateTeams() {
 		for(SearchTeam s : teams) {
 			s.updateLocation();
