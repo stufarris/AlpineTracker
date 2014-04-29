@@ -29,6 +29,8 @@ import teams.SearchTeam;
 import teams.SearchTeam.TeamType;
 import net.miginfocom.swing.MigLayout;
 
+//This component is a window used to add teams and markers to the map.
+
 public class AddDialog extends JDialog {
 	
 	private TeamLayer teamLayer;
@@ -56,6 +58,7 @@ public class AddDialog extends JDialog {
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
 
 	public AddDialog(TeamLayer teamLayer, DistanceConverter converter, MainWindow mainWindow) {
+		//This constructor creates the window and adds all the necesary GUI components
 		setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 		this.teamLayer = teamLayer;
 		this.converter = converter;
@@ -85,6 +88,7 @@ public class AddDialog extends JDialog {
 		addComponents();
 	}
 
+	//This function adds the components to the JDialog and uses 3rd party libraries for formatting.
 	public void addComponents() {
 		add(typeLabel);
 		add(typeSelect, "span, wrap");
@@ -134,7 +138,9 @@ public class AddDialog extends JDialog {
 			}
 		}
 	}
-
+	
+	//If "ok" button is pressed, this function makes sure that all the necessary JTextFields
+	// have text and that the text in them is valid input.
 	public class okListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -237,7 +243,8 @@ public class AddDialog extends JDialog {
 			}
 			
 		}
-
+		
+		//checks to make sure that the string provided by the user is actually an integer
 		private Boolean isInteger(String s, String errorMessage) {
 			try {
 				Integer.parseInt(s);
@@ -248,6 +255,7 @@ public class AddDialog extends JDialog {
 			return true;
 		}
 		
+		//checks to make sure that the string provided by the user is actually a double
 		private Boolean isDouble(String s, String errorMessage) {
 			try {
 				Double.parseDouble(s);
@@ -258,7 +266,8 @@ public class AddDialog extends JDialog {
 			return true;
 		}
 	}
-
+	
+	//checks if user clicks "cancel" and if so, hides window
 	public class CancelListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {

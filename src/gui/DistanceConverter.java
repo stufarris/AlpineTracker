@@ -16,6 +16,7 @@ public class DistanceConverter {
 	private int xWindowSize;
 	private int yWindowSize;
 	
+	//called when map is loaded and sets the latitude and longitude boundaries for the map loaded
 	public DistanceConverter(double topLeftLat, double topLeftLong, double botRightLat, double botRightLong, int xWindowSize, int yWindowSize) {
 		this.topLeftLat = topLeftLat;
 		this.topLeftLong = topLeftLong;
@@ -29,7 +30,9 @@ public class DistanceConverter {
 	public static double convertDMStoDecimal(int degrees, int minutes, int seconds){
 		return degrees + minutes/60.0 + seconds/3600.0;
 	}
-
+	
+	//constants used for finding the ratios from pixels to latitude, pixels to longitude, miles to latitude,
+	//miles to longitude, etc...
 	public void findConstants(){
 		LAT_TO_YPIXELS = yWindowSize/(topLeftLat-botRightLat);
 		LONG_TO_XPIXELS = xWindowSize/(topLeftLong-botRightLong);
@@ -39,14 +42,17 @@ public class DistanceConverter {
 		MILES_TO_LONG = 1/(69.047*Math.cos(topLeftLatRadian));
 	}
 	
+	//calculates a "vertical" distance in pixels given the change in latitude as a parameter
 	public int latDistanceToYPixel(double latitude){
 		return (int) ((topLeftLat - latitude) * LAT_TO_YPIXELS); 		
 	}
 	
+	//calculates a "horizontal" distance in pixels given the change in longitude as a parameter
 	public int longDistanceToXPixel(double longitude){
 		return (int) ((topLeftLong - longitude) * LONG_TO_XPIXELS); 		
 	}
 	
+	//calculates the change in longitude for a team based on their speed, heading, and refresh rate.
 	public double longChange(double speedMPH, int heading, int refreshRateInMillis){
 		double angleDeg = 90.0 - (double) heading;
 		double angleRad = (angleDeg * Math.PI) / 180.0;
@@ -57,6 +63,7 @@ public class DistanceConverter {
 		return -1 * longChange; // -1 since in western hemisphere
 	}	
 	
+	//calculates the change in latitude for a team based on their speed, heading, and refresh rate.
 	public double latChange(double speedMPH, int heading, int refreshRateInMillis){
 		double angleDeg = 90.0 - (double) heading;
 		double angleRad = (angleDeg * Math.PI) / 180.0;

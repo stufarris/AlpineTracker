@@ -51,7 +51,7 @@ public class MainWindow extends JFrame {
 
 	private Image map;
 	private Image teamHikerIcon, teamDogsIcon, teamHelicopterIcon, markerIcon;
-	
+
 	private double topLeftLat;
 	private double topLeftLong;
 	private double botRightLat;
@@ -93,7 +93,7 @@ public class MainWindow extends JFrame {
 
 		// Set up bottom info bar and map
 		setUpInfoBar();
-		
+
 		scrollPane = new JScrollPane();
 		teamDisplay = new TeamAndMarkerDisplay();
 		teamDisplay.getAddButton().addActionListener(new AddRemoveUpdateListener());
@@ -104,19 +104,21 @@ public class MainWindow extends JFrame {
 		teamDisplay.getUpdateButton().setEnabled(false);
 		teamLayer = null;
 		mapLayer = null;
-		
+
 		addComponents();
-		
-		
+
+
 
 	}
-	
+
+	//used when closing program to remove components
 	public void removeComponents() {
 		remove(scrollPane);
 		remove(infoBar);
 		remove(teamDisplay);
 	}
-	
+
+	//used to add components
 	public void addComponents() {
 		add(scrollPane, "grow, push");
 		add(teamDisplay, "grow, width 20%!, wrap"); //TODO: this will need to add a member variable in the near future
@@ -124,6 +126,7 @@ public class MainWindow extends JFrame {
 		revalidate();
 	}
 
+	//creates the file menu found at the top of the window and adds items for adding teams, closing, etc.
 	public JMenuBar generateMenu() {
 
 		JMenu fileMenu = new JMenu("File");
@@ -143,6 +146,7 @@ public class MainWindow extends JFrame {
 
 	}
 
+	//creates layer container and adds the map and team layer to the container
 	public void setUpLayerContainer() {
 		mapLayer = new MapLayer(this.map);
 		teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
@@ -155,13 +159,15 @@ public class MainWindow extends JFrame {
 		scrollPane = new JScrollPane(layers);
 	}
 
+	//creates the infoBar found at the bottom of the screen which shows the time
 	public void setUpInfoBar() {
 		infoBar = new JPanel(new MigLayout());
 		infoBar.setPreferredSize(new Dimension(this.getWidth(), INFO_BAR_HEIGHT));
 		infoBar.add(timeLabel, "push");
-		infoBar.add(new JLabel("This panel can display more relevant info later on."), "wrap");
+		infoBar.add(new JLabel(""), "wrap");
 		infoBar.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
+
 
 	private class LoadMapListener implements ActionListener {
 
@@ -186,7 +192,8 @@ public class MainWindow extends JFrame {
 		}
 
 	}
-	
+
+
 	private class AddRemoveUpdateListener implements ActionListener {
 
 		@Override
@@ -216,12 +223,13 @@ public class MainWindow extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "Please select a team or marker first.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		}
-		
+
 	}
 
+	//utilized when user loads a new map when the program starts
 	public void loadNewMap() {
 		// Load image file
 		MediaTracker tracker = new MediaTracker(this);
@@ -233,22 +241,23 @@ public class MainWindow extends JFrame {
 
 
 		// This will happen when the second dialog box is completed
-//		double topLeftLat = DistanceConverter.convertDMStoDecimal(39, 45, 0);
-//		double topLeftLong = DistanceConverter.convertDMStoDecimal(106, 0, 0);
-//		double botRightLat = DistanceConverter.convertDMStoDecimal(39, 37, 30);
-//		double botRightLong = DistanceConverter.convertDMStoDecimal(105, 52, 30);
+		//		double topLeftLat = DistanceConverter.convertDMStoDecimal(39, 45, 0);
+		//		double topLeftLong = DistanceConverter.convertDMStoDecimal(106, 0, 0);
+		//		double botRightLat = DistanceConverter.convertDMStoDecimal(39, 37, 30);
+		//		double botRightLong = DistanceConverter.convertDMStoDecimal(105, 52, 30);
 		setConverter(new DistanceConverter(topLeftLat, topLeftLong, botRightLat, botRightLong, map.getWidth(null), map.getHeight(null)));
-		
+
 		removeComponents();
 		setUpLayerContainer();
 		addComponents();
-	
+
 	}
 
 	public void setConverter(DistanceConverter converter) {
 		this.converter = converter;
 	}
 
+	//loads icon
 	public Image loadIcon(URL imageLocation) {
 		MediaTracker tracker = new MediaTracker(this);
 		Image image = Toolkit.getDefaultToolkit().getImage(imageLocation);
@@ -281,6 +290,7 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	//gets current times and updates the bar at the bottom of the screen
 	public void updateInfoBar() {
 		String timeString = "";
 		timeString += "Current time: ";
@@ -297,7 +307,7 @@ public class MainWindow extends JFrame {
 	public MainWindow getMainWindow() {
 		return this;
 	}
-	
+
 
 
 	public static void main(String[] args) {
@@ -317,44 +327,53 @@ public class MainWindow extends JFrame {
 		});
 
 	}
-	
+
+	//sets latitude of top left corner of map
 	public void setTopLeftLat(double topLeftLat) {
 		this.topLeftLat = topLeftLat;
 	}
 
+	//sets top left longitude of map
 	public void setTopLeftLong(double topLeftLong) {
 		this.topLeftLong = topLeftLong;
 	}
 
+	//sets bottom right latitude of map
 	public void setBotRightLat(double botRightLat) {
 		this.botRightLat = botRightLat;
 	}
 
+	//sets bottom right longitude of map
 	public void setBotRightLong(double botRightLong) {
 		this.botRightLong = botRightLong;
 	}
 
+	//sets flag if corners are inputed
 	public void setCornersRecieved(boolean cornersRecieved) {
 		this.cornersRecieved = cornersRecieved;
 	}
 
+	//returns hiker team image
 	public Image getTeamHikerIcon() {
 		return teamHikerIcon;
 	}
 
+	//returns dog team image
 	public Image getTeamDogsIcon() {
 		return teamDogsIcon;
 	}
 
+	//returns helicopter team image
 	public Image getTeamHelicopterIcon() {
 		return teamHelicopterIcon;
 	}
 
+	//returns the icon marker
 	public Image getMarkerIcon() {
 		return markerIcon;
 	}
-	
-	
+
+
 
 
 }

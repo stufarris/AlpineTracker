@@ -37,6 +37,8 @@ public class MapInitDialog extends JDialog{
 	private DistanceConverter converter;
 	private MainWindow mainWindow;
 	
+	//this constructor is used to create the JDialog where the user inputs the boundaries of the
+	//map they are loading in latitude and longitude coordinates
 	public MapInitDialog(DistanceConverter converter, MainWindow mainWindow) {
 		setTitle("Map Initialization");
 		setSize(400,300);
@@ -65,6 +67,8 @@ public class MapInitDialog extends JDialog{
 		addComponents();
 	}
 	
+	//called from the constructor to add all of the components to the JDialog and format/size them 
+	//properly.
 	public void addComponents() {
 		add(infoLabel, "span , wrap 4");
 		add(new JSeparator(SwingConstants.HORIZONTAL), "grow, span, wrap");
@@ -104,6 +108,8 @@ public class MapInitDialog extends JDialog{
 		add(cancelButton);
 	}
 	
+	//If "ok" button is pressed, this function makes sure that all the necessary JTextFields
+	// have text and that the text in them is valid input.
 	public class okListener implements ActionListener{
 
 		@Override
@@ -160,7 +166,8 @@ public class MapInitDialog extends JDialog{
 			mainWindow.setCornersRecieved(true);			
 			setVisible(false);
 		}
-		
+
+		//checks to make sure that the string provided by the user is actually an integer
 		private Boolean isInteger(String s, String errorMessage) {
 			try {
 				Integer.parseInt(s);

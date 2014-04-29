@@ -43,6 +43,7 @@ public class UpdateDialog extends JDialog {
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
 
+	//creates the JDialog where teams can be updated
 	public UpdateDialog(TeamLayer teamLayer, DistanceConverter converter, TeamAndMarkerDisplay teamAndMarkerDisplay) {
 		this.teamLayer = teamLayer;
 		this.converter = converter;
@@ -68,6 +69,8 @@ public class UpdateDialog extends JDialog {
 		addComponents();
 	}
 
+	//used to add the compenents to the JDialog
+	//called from the constructor
 	public void addComponents() {
 		add(latLabel, "span, wrap");
 		add(new JLabel("Degrees:"));
@@ -93,6 +96,8 @@ public class UpdateDialog extends JDialog {
 		add(cancelButton);
 	}
 
+	//checks to make sure that all fields are filled out when the "ok" button is pressed and 
+	//checks that the provided input is valid.
 	public class okListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -147,6 +152,7 @@ public class UpdateDialog extends JDialog {
 
 		}
 
+		//checks to make sure that the string provided by the user is actually an integer
 		private Boolean isInteger(String s, String errorMessage) {
 			try {
 				Integer.parseInt(s);
@@ -157,6 +163,7 @@ public class UpdateDialog extends JDialog {
 			return true;
 		}
 		
+		//checks to make sure that the string provided by the user is actually a double
 		private Boolean isDouble(String s, String errorMessage) {
 			try {
 				Double.parseDouble(s);
@@ -168,6 +175,7 @@ public class UpdateDialog extends JDialog {
 		}
 	}
 
+	//checks to see if cancel is clicked and hides window if so.
 	public class CancelListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {

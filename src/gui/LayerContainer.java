@@ -11,6 +11,7 @@ public class LayerContainer extends JLayeredPane {
 	private int height, width;
 	private ArrayList<Layer> layers;
 	
+	//this class is used to aggregate all of the layers created
 	public LayerContainer(int imageWidth, int imageHeight) {
 		this.height = imageHeight;
 		this.width = imageWidth;
@@ -18,6 +19,7 @@ public class LayerContainer extends JLayeredPane {
 		this.setPreferredSize(new Dimension(width, height));
 	}
 	
+	//this function is used to erase and re-draw the layers which is used for animation
 	public void updateLayers() {
 		this.removeAll();
 		
@@ -29,10 +31,12 @@ public class LayerContainer extends JLayeredPane {
 		this.revalidate();
 	}
 	
+	//adds a layer to the arrayList
 	public void addLayer(Layer layer) {
 		this.layers.add(layer);
 	}
 	
+	//removes a layer from the arrayList
 	public void removeLayer(Layer layer) {
 		this.layers.remove(layer);
 	}

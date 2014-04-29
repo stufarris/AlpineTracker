@@ -9,6 +9,7 @@ public class MapLayer extends Layer {
 	private static final long serialVersionUID = -831097041156312476L;
 	private Image map;
 
+	//constructor for creating the map layer
 	public MapLayer(Image map) {
 		super(map.getWidth(null), map.getHeight(null));
 		this.map = map;

@@ -20,14 +20,17 @@ public class TeamLayer extends Layer {
 		markers = new ArrayList<Marker>();
 	}
 	
+	//used to add a team
 	public void addTeam(SearchTeam s) {
 		teams.add(s);
 	}
 	
+	// used to remove a team
 	public void removeTeam(SearchTeam s) {
 		teams.remove(s);
 	}
 	
+	//updates teams so they can be drawn in the correct location
 	public void updateTeams() {
 		for(SearchTeam s : teams) {
 			s.updateLocation();
@@ -45,10 +48,12 @@ public class TeamLayer extends Layer {
 		}
 	}
 
+	//returns the ArrayList containing the teams
 	public ArrayList<SearchTeam> getTeams() {
 		return teams;
 	}
 
+	//returns the ArrayList containing the markers
 	public ArrayList<Marker> getMarkers() {
 		return markers;
 	}

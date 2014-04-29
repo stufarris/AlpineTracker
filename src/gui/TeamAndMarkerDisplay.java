@@ -28,6 +28,7 @@ public class TeamAndMarkerDisplay extends JPanel {
 	private final static String[] MARKER_HEADERS = {"Name", "Latitude", "Longitude", "Time Created"};
 	private final static int DEFAULT_TABLE_ROWS = 0;
 
+	//creates tabbed pane on the right side to contain the tables displaying marker and team information
 	public TeamAndMarkerDisplay() {
 		this.setLayout(new MigLayout("wrap 3"));
 		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
@@ -49,14 +50,17 @@ public class TeamAndMarkerDisplay extends JPanel {
 
 	}
 
+	//getAddButton
 	public JButton getAddButton() {
 		return addButton;
 	}
 
+	//gets the remove button
 	public JButton getRemoveButton() {
 		return removeButton;
 	}
 
+	//returns the update button.
 	public JButton getUpdateButton() {
 		return updateButton;
 	}
