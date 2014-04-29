@@ -130,6 +130,9 @@ public class MainWindow extends JFrame {
 		teamDisplay.getAddButton().addActionListener(new AddRemoveUpdateListener());
 		teamDisplay.getRemoveButton().addActionListener(new AddRemoveUpdateListener());
 		teamDisplay.getUpdateButton().addActionListener(new AddRemoveUpdateListener());
+		teamDisplay.getAddButton().setEnabled(false);
+		teamDisplay.getRemoveButton().setEnabled(false);
+		teamDisplay.getUpdateButton().setEnabled(false);
 		teamLayer = null;
 		mapLayer = null;
 		
@@ -174,23 +177,23 @@ public class MainWindow extends JFrame {
 		teamLayer = new TeamLayer(mapLayer.getWidth(), mapLayer.getHeight());
 		LayerContainer layers = new LayerContainer(mapLayer.getWidth(), mapLayer.getHeight());
 
-		
-		teamLayer.addTeam(new SearchTeam("Test Team",
-				DistanceConverter.convertDMStoDecimal(39, 44, 30),
-				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, teamDogs, TeamType.DOGS, converter));
-		teamLayer.addTeam(new SearchTeam("Test Team",
-				DistanceConverter.convertDMStoDecimal(39, 40, 30),
-				DistanceConverter.convertDMStoDecimal(105, 55, 0), currentTime, teamHiker, TeamType.HIKERS, converter));
-		teamLayer.addTeam(new SearchTeam("Test Team",
-				DistanceConverter.convertDMStoDecimal(39, 43, 0),
-				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, teamHelicopter, TeamType.HELICOPTER, converter));
-		
-		teamLayer.getTeams().get(0).setHeading(90);
-		teamLayer.getTeams().get(0).setSpeed(10);
-		teamLayer.getTeams().get(1).setHeading(345);
-		teamLayer.getTeams().get(1).setSpeed(5);
-		teamLayer.getTeams().get(2).setHeading(90);
-		teamLayer.getTeams().get(2).setSpeed(50);
+//		
+//		teamLayer.addTeam(new SearchTeam("Test Team",
+//				DistanceConverter.convertDMStoDecimal(39, 44, 30),
+//				DistanceConverter.convertDMStoDecimal(105, 59, 0), currentTime, teamDogs, TeamType.DOGS, converter));
+//		teamLayer.addTeam(new SearchTeam("Test Team",
+//				DistanceConverter.convertDMStoDecimal(39, 40, 30),
+//				DistanceConverter.convertDMStoDecimal(105, 55, 0), currentTime, teamHiker, TeamType.HIKERS, converter));
+//		teamLayer.addTeam(new SearchTeam("Test Team",
+//				DistanceConverter.convertDMStoDecimal(39, 43, 0),
+//				DistanceConverter.convertDMStoDecimal(105, 57, 0), currentTime, teamHelicopter, TeamType.HELICOPTER, converter));
+//		
+//		teamLayer.getTeams().get(0).setHeading(90);
+//		teamLayer.getTeams().get(0).setSpeed(10);
+//		teamLayer.getTeams().get(1).setHeading(345);
+//		teamLayer.getTeams().get(1).setSpeed(5);
+//		teamLayer.getTeams().get(2).setHeading(90);
+//		teamLayer.getTeams().get(2).setSpeed(50);
 
 		layers.addLayer(mapLayer);
 		layers.addLayer(teamLayer);
@@ -222,6 +225,9 @@ public class MainWindow extends JFrame {
 				mapInitDialog.setVisible(true);
 				if(cornersRecieved == true){
 					loadNewMap();
+					teamDisplay.getAddButton().setEnabled(true);
+					teamDisplay.getRemoveButton().setEnabled(true);
+					teamDisplay.getUpdateButton().setEnabled(true);
 				}
 			}
 		}

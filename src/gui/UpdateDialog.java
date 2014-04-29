@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dialog;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,7 +26,7 @@ import org.joda.time.DateTime;
 import teams.SearchTeam;
 import net.miginfocom.swing.MigLayout;
 
-public class UpdateDialog extends JFrame {
+public class UpdateDialog extends JDialog {
 
 	private TeamLayer teamLayer;
 	private DistanceConverter converter;
@@ -45,6 +47,7 @@ public class UpdateDialog extends JFrame {
 		this.teamLayer = teamLayer;
 		this.converter = converter;
 		this.teamAndMarkerDisplay = teamAndMarkerDisplay;
+		setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 
 		setTitle("Update an Item");
 		setSize(400, 220);

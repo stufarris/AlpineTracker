@@ -26,7 +26,7 @@ public class SearchTeam {
 	private DistanceConverter converter;
 	private ArrayList<Point> searchedPoints;
 
-	private float pathWidth = 25;
+	private float pathWidth;
 
 	public enum TeamType{
 		HIKERS ("Hikers"),
@@ -55,6 +55,12 @@ public class SearchTeam {
 		this.converter = converter;
 		searchedPoints = new ArrayList<Point>();
 		searchedPoints.add(new Point(converter.longDistanceToXPixel(longitude), converter.latDistanceToYPixel(latitude)));
+		if(type == TeamType.DOGS || type == TeamType.HIKERS){
+			pathWidth = 25;
+		}
+		else{
+			pathWidth = 75;
+		}
 	}
 
 	public void setLocation(double latitude, double longitude) {

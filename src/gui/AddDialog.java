@@ -14,6 +14,7 @@ import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,7 +28,7 @@ import teams.SearchTeam;
 import teams.SearchTeam.TeamType;
 import net.miginfocom.swing.MigLayout;
 
-public class AddDialog extends JFrame {
+public class AddDialog extends JDialog {
 	
 	private TeamLayer teamLayer;
 	private DistanceConverter converter;
@@ -56,6 +57,7 @@ public class AddDialog extends JFrame {
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
 
 	public AddDialog(TeamLayer teamLayer, DistanceConverter converter, MainWindow mainWindow) {
+		setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 		this.teamLayer = teamLayer;
 		this.converter = converter;
 		this.mainWindow = mainWindow;
