@@ -238,7 +238,7 @@ public class AddDialog extends JDialog {
 				
 				setVisible(false);
 				
-				Marker m = new Marker("test", DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerIcon(), converter);
+				Marker m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerIcon(), converter);
 				teamLayer.getMarkers().add(m);
 			}
 			

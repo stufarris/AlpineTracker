@@ -29,9 +29,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.joda.time.DateTime;
 
-import teams.Marker;
-import teams.SearchTeam;
-import teams.SearchTeam.TeamType;
 import net.miginfocom.swing.MigLayout;
 
 public class MainWindow extends JFrame {
