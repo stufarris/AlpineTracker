@@ -28,6 +28,10 @@ public class TeamLayer extends Layer {
 		teams.remove(s);
 	}
 	
+	public void removeMarker(Marker m) {
+		markers.remove(m);
+	}
+	
 	public void updateTeams() {
 		for(SearchTeam s : teams) {
 			s.updateLocation();

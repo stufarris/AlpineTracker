@@ -204,7 +204,10 @@ public class MainWindow extends JFrame {
 					}
 				}
 				if (teamDisplay.markerTabIsSelected()) {
-					//TODO remove marker
+					if (teamDisplay.getSelectedMarkerIndex() > -1) {
+						teamLayer.removeMarker(teamLayer.getMarkers().get(teamDisplay.getSelectedMarkerIndex()));
+						teamDisplay.updateMarkerTable(teamLayer.getMarkers());
+					}
 				}
 			} else if (arg0.getSource() == teamDisplay.getUpdateButton()) {
 				if (
@@ -230,13 +233,7 @@ public class MainWindow extends JFrame {
 		try {
 			tracker.waitForID(0);
 		} catch (InterruptedException e) { e.printStackTrace(); }
-
-
-		// This will happen when the second dialog box is completed
-//		double topLeftLat = DistanceConverter.convertDMStoDecimal(39, 45, 0);
-//		double topLeftLong = DistanceConverter.convertDMStoDecimal(106, 0, 0);
-//		double botRightLat = DistanceConverter.convertDMStoDecimal(39, 37, 30);
-//		double botRightLong = DistanceConverter.convertDMStoDecimal(105, 52, 30);
+		
 		setConverter(new DistanceConverter(topLeftLat, topLeftLong, botRightLat, botRightLong, map.getWidth(null), map.getHeight(null)));
 		
 		removeComponents();
