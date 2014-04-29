@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EtchedBorder;
 
+import teams.Marker;
 import teams.SearchTeam;
 import net.miginfocom.swing.MigLayout;
 
@@ -63,6 +64,10 @@ public class TeamAndMarkerDisplay extends JPanel {
 
 	public void updateTeamTable(ArrayList<SearchTeam> teams) {
 		teamTable.setTableData(teams);
+	}
+	
+	public void updateMarkerTable(ArrayList<Marker> markers) {
+		markerTable.setMarkerTableData(markers);
 	}
 
 	public int getSelectedTeamIndex() {

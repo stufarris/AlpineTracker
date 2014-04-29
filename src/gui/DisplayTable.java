@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -11,6 +12,7 @@ import net.miginfocom.swing.MigLayout;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import teams.Marker;
 import teams.SearchTeam;
 
 public class DisplayTable extends JPanel {
@@ -58,6 +60,23 @@ public class DisplayTable extends JPanel {
 			table.setValueAt(teams.get(i).getHeading(), i, 4);
 			table.setValueAt(teams.get(i).getSpeed(), i, 5);
 			table.setValueAt(clockTime.print(teams.get(i).getTimeCreated()), i, 6);
+		}
+	}
+	
+	public void setMarkerTableData(ArrayList<Marker> markers) {
+		while (model.getRowCount() != markers.size()) {
+			if (model.getRowCount() > markers.size()) {
+				model.removeRow(model.getRowCount()-1);
+			}
+			if (model.getRowCount() < markers.size()) {
+				model.addRow(new Object[columnNames.length]);
+			}
+		}
+		for (int i = 0; i < markers.size(); i++) {
+			table.setValueAt(markers.get(i).getMarkerName(), i, 0);
+			table.setValueAt(markers.get(i).getLatitude(), i, 1);
+			table.setValueAt(markers.get(i).getLongitude(), i, 2);
+			table.setValueAt(clockTime.print(markers.get(i).getTimeCreated()), i,3);
 		}
 	}
 	

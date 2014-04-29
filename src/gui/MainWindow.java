@@ -273,6 +273,7 @@ public class MainWindow extends JFrame {
 					if (teamLayer != null) {
 						teamLayer.updateTeams();
 						teamDisplay.updateTeamTable(teamLayer.getTeams());
+						teamDisplay.updateMarkerTable(teamLayer.getMarkers());
 					}
 					repaint();
 

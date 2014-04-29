@@ -13,6 +13,7 @@ public class Marker {
 	private double latitude;
 	private DateTime timeCreated;
 	private Image icon;
+	
 	private DistanceConverter converter;
 	
 
@@ -30,5 +31,23 @@ public class Marker {
 		// Draw Icon
 		g.drawImage(icon, converter.longDistanceToXPixel(longitude) - 16, converter.latDistanceToYPixel(latitude) - 35, null);
 	}
+	
+	public String getMarkerName() {
+		return markerName;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public DateTime getTimeCreated() {
+		return timeCreated;
+	}
+
+	
 
 }
