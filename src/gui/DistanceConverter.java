@@ -73,5 +73,20 @@ public class DistanceConverter {
 		double latChange = (miles * MILES_TO_LAT);
 		return latChange;
 	}	
+	
+	
+	public static int[] getDMSfromDecimal(double value) {
+		int[] result = new int[3];
+		
+		result[0] = (int)value;
+		value -= result[0];
+		value *=60;
+		result[1] = (int)value;
+		value -= result[1];
+		value *= 60;
+		result[2] = (int)value;
+		
+		return result;
+	}
 
 }

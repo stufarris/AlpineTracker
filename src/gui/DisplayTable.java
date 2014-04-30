@@ -57,10 +57,31 @@ public class DisplayTable extends JPanel {
 			}
 		}
 		for (int i = 0; i < teams.size(); i++) {
+			
+			String latitude = "";
+			String longitude = "";
+			
+			int[] latitudeInt = DistanceConverter.getDMSfromDecimal(teams.get(i).getLatitude());
+			int[] longitudeInt = DistanceConverter.getDMSfromDecimal(teams.get(i).getLongitude());
+			
+			latitude += latitudeInt[0];
+			latitude += "º";
+			latitude += latitudeInt[1];
+			latitude += "'";
+			latitude += latitudeInt[2];
+			latitude += "\"";
+			
+			longitude += longitudeInt[0];
+			longitude += "º";
+			longitude += longitudeInt[1];
+			longitude += "'";
+			longitude += longitudeInt[2];
+			longitude += "\"";
+			
 			table.setValueAt(teams.get(i).getTeamName(), i, 0);
 			table.setValueAt(teams.get(i).getType().toString(), i, 1);
-			table.setValueAt(teams.get(i).getLatitude(), i, 2);
-			table.setValueAt(teams.get(i).getLongitude(), i, 3);
+			table.setValueAt(latitude, i, 2);
+			table.setValueAt(longitude, i, 3);
 			table.setValueAt(teams.get(i).getHeading(), i, 4);
 			table.setValueAt(teams.get(i).getSpeed(), i, 5);
 			table.setValueAt(clockTime.print(teams.get(i).getTimeCreated()), i, 6);

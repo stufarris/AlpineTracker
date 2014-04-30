@@ -47,7 +47,8 @@ public class MainWindow extends JFrame {
 	private DistanceConverter converter;
 
 	private Image map;
-	private Image teamHikerIcon, teamDogsIcon, teamHelicopterIcon, markerIcon;
+	private Image teamHikerIcon, teamDogsIcon, teamHelicopterIcon;
+	private Image markerBlack, markerBlue, markerGreen, markerOrange, markerPurple, markerTeal, markerWhite, markerYellow;
 
 	private double topLeftLat;
 	private double topLeftLong;
@@ -64,7 +65,14 @@ public class MainWindow extends JFrame {
 	private static final String dogImage = "/team_dog.png";
 	private static final String hikerImage = "/team_hiker.png";
 	private static final String heliImage = "/team_helicopter.png";
-	private static final String markerImage = "/marker_black.png";
+	private static final String blackImage = "/marker_black.png";
+	private static final String blueImage = "/marker_blue.png";
+	private static final String greenImage = "/marker_green.png";
+	private static final String orangeImage = "/marker_orange.png";
+	private static final String purpleImage = "/marker_purple.png";
+	private static final String tealImage = "/marker_teal.png";
+	private static final String whiteImage = "/marker_white.png";
+	private static final String yellowImage = "/marker_yellow.png";
 
 	// File for loaded map
 	File mapFile;
@@ -75,7 +83,14 @@ public class MainWindow extends JFrame {
 		teamDogsIcon = loadIcon(getClass().getResource(dogImage));
 		teamHikerIcon = loadIcon(getClass().getResource(hikerImage));
 		teamHelicopterIcon = loadIcon(getClass().getResource(heliImage));
-		markerIcon = loadIcon(getClass().getResource(markerImage));
+		markerBlack = loadIcon(getClass().getResource(blackImage));
+		markerBlue = loadIcon(getClass().getResource(blueImage));
+		markerGreen = loadIcon(getClass().getResource(greenImage));
+		markerOrange = loadIcon(getClass().getResource(orangeImage));
+		markerPurple = loadIcon(getClass().getResource(purpleImage));
+		markerTeal = loadIcon(getClass().getResource(tealImage));
+		markerWhite = loadIcon(getClass().getResource(whiteImage));
+		markerYellow = loadIcon(getClass().getResource(yellowImage));
 
 		// Set timer frequency to 1 second (update frequency)
 		timer.schedule(new Updater(), 0, 1000);
@@ -368,10 +383,39 @@ public class MainWindow extends JFrame {
 		return teamHelicopterIcon;
 	}
 
-	//returns the icon marker
-	public Image getMarkerIcon() {
-		return markerIcon;
+	public Image getMarkerBlack() {
+		return markerBlack;
 	}
+
+	public Image getMarkerBlue() {
+		return markerBlue;
+	}
+
+	public Image getMarkerGreen() {
+		return markerGreen;
+	}
+
+	public Image getMarkerOrange() {
+		return markerOrange;
+	}
+
+	public Image getMarkerPurple() {
+		return markerPurple;
+	}
+
+	public Image getMarkerTeal() {
+		return markerTeal;
+	}
+
+	public Image getMarkerWhite() {
+		return markerWhite;
+	}
+
+	public Image getMarkerYellow() {
+		return markerYellow;
+	}
+	
+	
 
 
 
