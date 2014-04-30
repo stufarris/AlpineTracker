@@ -51,11 +51,14 @@ public class AddDialog extends JDialog {
 	private JTextField headingField;
 	private JLabel speedLabel = new JLabel("Speed:");
 	private JTextField speedField;
+	private JLabel colorLabel = new JLabel("Color:");
+	private JComboBox colorSelect;
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
 
 	private final static String[] types = {"Team", "Marker"};
 	private final static String[] teamTypes = {"Hikers", "Dogs", "Helicopter"};
+	private final static String[] colors = {"Black", "Blue", "Green", "Orange", "Purple", "Teal", "White", "Yellow"};
 
 	public AddDialog(TeamLayer teamLayer, DistanceConverter converter, MainWindow mainWindow) {
 		//This constructor creates the window and adds all the necesary GUI components
@@ -66,7 +69,7 @@ public class AddDialog extends JDialog {
 		
 		
 		setTitle("Add an Item");
-		setSize(400, 300);
+		setSize(400, 350);
 		setLayout(new MigLayout());
 		setLocationRelativeTo(null);
 		typeSelect = new JComboBox<String>(types);
@@ -82,6 +85,10 @@ public class AddDialog extends JDialog {
 		searchTeamSelect = new JComboBox<String>(teamTypes);
 		headingField = new JTextField();
 		speedField = new JTextField();
+		
+		colorSelect = new JComboBox<String>(colors);
+		colorSelect.setEnabled(false);
+		
 
 		cancelButton.addActionListener(new CancelListener());
 		okButton.addActionListener(new okListener());
@@ -117,6 +124,8 @@ public class AddDialog extends JDialog {
 		add(headingField, "grow, push, span, wrap");
 		add(speedLabel);
 		add(speedField, "grow, push, span, wrap");
+		add(colorLabel);
+		add(colorSelect, "span, wrap");
 		add(okButton);
 		add(cancelButton);
 	}
@@ -130,11 +139,13 @@ public class AddDialog extends JDialog {
 				searchTeamSelect.setEnabled(false);
 				headingField.setEnabled(false);
 				speedField.setEnabled(false);
+				colorSelect.setEnabled(true);
 			}
 			else if(selectedType == "Team"){
 				searchTeamSelect.setEnabled(true);
 				headingField.setEnabled(true);
 				speedField.setEnabled(true);
+				colorSelect.setEnabled(false);
 			}
 		}
 	}
@@ -238,7 +249,37 @@ public class AddDialog extends JDialog {
 				
 				setVisible(false);
 				
-				Marker m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerBlack(), converter);
+				Marker m = null;
+				
+				switch((String)colorSelect.getSelectedItem()) {
+				case("Black"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerBlack(), converter);
+				break;
+				case("Blue"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerBlue(), converter);
+				break;
+				case("Green"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerGreen(), converter);
+				break;
+				case("Orange"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerOrange(), converter);
+				break;
+				case("Purple"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerPurple(), converter);
+				break;
+				case("Teal"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerTeal(), converter);
+				break;
+				case("White"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerWhite(), converter);
+				break;
+				case("Yellow"):
+					m = new Marker(name, DistanceConverter.convertDMStoDecimal(lonDegNum,lonMinNum,lonSecNum), DistanceConverter.convertDMStoDecimal(latDegNum,latMinNum,latSecNum), new DateTime(), mainWindow.getMarkerYellow(), converter);
+				break;
+				
+				}
+				
+				
 				teamLayer.getMarkers().add(m);
 			}
 			
