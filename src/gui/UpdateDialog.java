@@ -94,6 +94,33 @@ public class UpdateDialog extends JDialog {
 		add(speedField, "grow, push, span, wrap");
 		add(okButton);
 		add(cancelButton);
+		
+		// Populate fields on launch
+		if (teamAndMarkerDisplay.teamTabIsSelected()) {
+			int index = teamAndMarkerDisplay.getSelectedTeamIndex();
+			int[] latitude = DistanceConverter.getDMSfromDecimal(teamLayer.getTeams().get(index).getLatitude());
+			int[] longitude = DistanceConverter.getDMSfromDecimal(teamLayer.getTeams().get(index).getLongitude());
+			latDegField.setText(new Integer(latitude[0]).toString());
+			latMinField.setText(new Integer(latitude[1]).toString());
+			latSecField.setText(new Integer(latitude[2]).toString());
+			lonDegField.setText(new Integer(longitude[0]).toString());
+			lonMinField.setText(new Integer(longitude[1]).toString());
+			lonSecField.setText(new Integer(longitude[2]).toString());
+			headingField.setText(new Integer(teamLayer.getTeams().get(index).getHeading()).toString());
+			speedField.setText(new Double(teamLayer.getTeams().get(index).getSpeed()).toString());
+		} else if (teamAndMarkerDisplay.markerTabIsSelected()) {
+			int index = teamAndMarkerDisplay.getSelectedMarkerIndex();
+			int[] latitude = DistanceConverter.getDMSfromDecimal(teamLayer.getMarkers().get(index).getLatitude());
+			int[] longitude = DistanceConverter.getDMSfromDecimal(teamLayer.getMarkers().get(index).getLongitude());
+			latDegField.setText(new Integer(latitude[0]).toString());
+			latMinField.setText(new Integer(latitude[1]).toString());
+			latSecField.setText(new Integer(latitude[2]).toString());
+			lonDegField.setText(new Integer(longitude[0]).toString());
+			lonMinField.setText(new Integer(longitude[1]).toString());
+			lonSecField.setText(new Integer(longitude[2]).toString());
+			headingField.setEnabled(false);
+			speedField.setEnabled(false);
+		}
 	}
 
 	//checks to make sure that all fields are filled out when the "ok" button is pressed and 
@@ -104,7 +131,7 @@ public class UpdateDialog extends JDialog {
 
 
 
-			int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum;
+			int latDegNum, latMinNum, latSecNum, lonDegNum, lonMinNum, lonSecNum, headingNum = 0;
 			double speedNum = 0;
 
 			String latDeg = latDegField.getText();
@@ -128,10 +155,12 @@ public class UpdateDialog extends JDialog {
 			else return;
 			if (isInteger(lonSec, "Please enter a numerical value for longitude seconds.")) lonSecNum = Integer.parseInt(lonSec);
 			else return;
-			if (isInteger(heading, "Please enter a numerical value for heading.")) headingNum = Integer.parseInt(heading);
-			else return;
-			if (isDouble(speed, "Please enter a numerical value for speed.")) speedNum = Double.parseDouble(speed);
-			else return;
+			if (teamAndMarkerDisplay.teamTabIsSelected()) {
+				if (isInteger(heading, "Please enter a numerical value for heading.")) headingNum = Integer.parseInt(heading);
+				else return;
+				if (isDouble(speed, "Please enter a numerical value for speed.")) speedNum = Double.parseDouble(speed);
+				else return;
+			}
 
 			double latToPass = DistanceConverter.convertDMStoDecimal(latDegNum, latMinNum, latSecNum);
 			double lonToPass = DistanceConverter.convertDMStoDecimal(lonDegNum, lonMinNum, lonSecNum);
@@ -144,7 +173,8 @@ public class UpdateDialog extends JDialog {
 				teamLayer.getTeams().get(index).setSpeed(speedNum);
 				teamLayer.getTeams().get(index).setLocation(latToPass, lonToPass);
 			} else if (teamAndMarkerDisplay.markerTabIsSelected()) {
-				//markerLayer.update
+				int index = teamAndMarkerDisplay.getSelectedMarkerIndex();
+				teamLayer.getMarkers().get(index).setLocation(latToPass, lonToPass);
 			}
 
 

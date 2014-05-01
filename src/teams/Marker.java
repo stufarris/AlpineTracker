@@ -4,6 +4,7 @@ import gui.DistanceConverter;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 
 import org.joda.time.DateTime;
 
@@ -46,6 +47,11 @@ public class Marker {
 
 	public DateTime getTimeCreated() {
 		return timeCreated;
+	}
+	
+	public void setLocation(double latitude, double longitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	

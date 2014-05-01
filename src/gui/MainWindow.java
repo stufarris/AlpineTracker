@@ -28,6 +28,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -60,6 +62,8 @@ public class MainWindow extends JFrame {
 	private JLabel timeLabel;
 
 	private DateTime currentTime;
+	
+	DateTimeFormatter clockTime = DateTimeFormat.forPattern("hh:mm:ssa");
 
 	// Files for loaded images
 	private static final String dogImage = "/team_dog.png";
@@ -98,6 +102,7 @@ public class MainWindow extends JFrame {
 
 		// JFrame setup
 		setTitle("RealRescue");
+		setSize(600, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new MigLayout());
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
@@ -133,7 +138,7 @@ public class MainWindow extends JFrame {
 	//used to add components
 	public void addComponents() {
 		add(scrollPane, "grow, push");
-		add(teamDisplay, "grow, width 20%!, wrap"); //TODO: this will need to add a member variable in the near future
+		add(teamDisplay, "grow, width 20%!, wrap");
 		add(infoBar, "span 2, grow, wrap");
 		revalidate();
 	}
@@ -176,7 +181,6 @@ public class MainWindow extends JFrame {
 		infoBar = new JPanel(new MigLayout());
 		infoBar.setPreferredSize(new Dimension(this.getWidth(), INFO_BAR_HEIGHT));
 		infoBar.add(timeLabel, "push");
-		infoBar.add(new JLabel(""), "wrap");
 		infoBar.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
@@ -312,9 +316,7 @@ public class MainWindow extends JFrame {
 		timeString += currentTime.getMonthOfYear() + "/";
 		timeString += currentTime.getDayOfMonth() + "/";
 		timeString += currentTime.getYearOfCentury() + ", ";
-		timeString += currentTime.getHourOfDay() + ":";
-		timeString += currentTime.getMinuteOfHour() + ":";
-		timeString += currentTime.getSecondOfMinute();
+		timeString += clockTime.print(currentTime);
 
 		timeLabel.setText(timeString);
 	}

@@ -69,7 +69,7 @@ public class AddDialog extends JDialog {
 		
 		
 		setTitle("Add an Item");
-		setSize(400, 350);
+		setSize(400, 355);
 		setLayout(new MigLayout());
 		setLocationRelativeTo(null);
 		typeSelect = new JComboBox<String>(types);

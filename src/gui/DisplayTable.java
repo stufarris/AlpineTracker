@@ -87,7 +87,7 @@ public class DisplayTable extends JPanel {
 			table.setValueAt(clockTime.print(teams.get(i).getTimeCreated()), i, 6);
 		}
 	}
-	//getter for rows
+
 	public void setMarkerTableData(ArrayList<Marker> markers) {
 		while (model.getRowCount() != markers.size()) {
 			if (model.getRowCount() > markers.size()) {
@@ -98,9 +98,33 @@ public class DisplayTable extends JPanel {
 			}
 		}
 		for (int i = 0; i < markers.size(); i++) {
+			
+			String latitude = "";
+			String longitude = "";
+			
+			int[] latitudeInt = DistanceConverter.getDMSfromDecimal(markers.get(i).getLatitude());
+			int[] longitudeInt = DistanceConverter.getDMSfromDecimal(markers.get(i).getLongitude());
+			
+			latitude += latitudeInt[0];
+			latitude += "º";
+			latitude += latitudeInt[1];
+			latitude += "'";
+			latitude += latitudeInt[2];
+			latitude += "\"";
+			
+			longitude += longitudeInt[0];
+			longitude += "º";
+			longitude += longitudeInt[1];
+			longitude += "'";
+			longitude += longitudeInt[2];
+			longitude += "\"";
+			
+			
+			
+			
 			table.setValueAt(markers.get(i).getMarkerName(), i, 0);
-			table.setValueAt(markers.get(i).getLatitude(), i, 1);
-			table.setValueAt(markers.get(i).getLongitude(), i, 2);
+			table.setValueAt(latitude, i, 1);
+			table.setValueAt(longitude, i, 2);
 			table.setValueAt(clockTime.print(markers.get(i).getTimeCreated()), i,3);
 		}
 	}
